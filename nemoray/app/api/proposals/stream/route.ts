@@ -17,6 +17,8 @@ export async function GET() {
     { type: 'overview' as const },
   ];
 
+  let timer: ReturnType<typeof setTimeout>;
+
   const stream = new ReadableStream<string>({
     start(controller) {
       let i = 0;
@@ -27,11 +29,13 @@ export async function GET() {
           return;
         }
         controller.enqueue(encode(events[i++]));
-        setTimeout(next, 3000);
+        timer = setTimeout(next, 3000);
       }
 
-      // Begin after a short delay so the client EventSource is ready
-      setTimeout(next, 2000);
+      timer = setTimeout(next, 2000);
+    },
+    cancel() {
+      clearTimeout(timer);
     },
   });
 
