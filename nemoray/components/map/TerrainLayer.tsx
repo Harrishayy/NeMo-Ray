@@ -17,10 +17,9 @@ export default function TerrainLayer() {
       if (!mapInstance.getSource(sourceId)) {
         mapInstance.addSource(sourceId, {
           type: 'raster-dem',
-          tiles: [
-            `https://api.maptiler.com/tiles/terrain-rgb-v2/{z}/{x}/{y}.webp?key=${process.env.NEXT_PUBLIC_MAPTILER_KEY}`,
-          ],
-          tileSize: 256,
+          url: `https://api.maptiler.com/tiles/terrain-rgb-v2/tiles.json?key=${process.env.NEXT_PUBLIC_MAPTILER_KEY}`,
+          tileSize: 512,
+          encoding: 'mapbox',
         });
       }
 
