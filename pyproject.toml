@@ -1,0 +1,30 @@
+# uv configuration for the whole NeMo-Ray repo.
+# This is a non-package project (no [build-system]) — uv manages the Python
+# environment and dev tooling for the repo without building anything itself.
+# Run `uv sync` from here.
+
+[project]
+name = "nemo-ray"
+version = "0.1.0"
+description = "NeMo-Ray"
+requires-python = ">=3.10"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+# When modellingsim grows its own pyproject.toml, turn the repo into a uv
+# workspace by uncommenting:
+#
+# [tool.uv.workspace]
+# members = ["modellingsim"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

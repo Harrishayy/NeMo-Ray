@@ -1,0 +1,31 @@
+# Root .gitignore — app-specific ignores live in nemoray/.gitignore
+
+# Dependencies (safety net; the app also ignores these locally)
+node_modules/
+.pnpm-store/
+
+# Python / uv (uv.lock is committed; only local artifacts are ignored)
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+
+# Secrets / environment
+.env
+.env.*
+!.env.example
+
+# Editors / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
