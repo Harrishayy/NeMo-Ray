@@ -4,7 +4,17 @@
 
 ## Overview
 
-<!-- One or two sentences on what this repo is and does. -->
+**NeMo-Ray** is a GPU-accelerated **digital twin of the UK Emergency Services
+Network (ESN) 4G/LTE coverage**, with an **agentic optimisation-and-resilience
+layer** on top — *"the ESN coverage-and-resilience problem, made interactive."*
+It simulates real coverage (NVIDIA **Sionna RT**), optimises where to add masts
+(**cuOpt**), and uses **Nemotron** to reality-check each proposal against
+real-world LiDAR before a planner trusts it — all running locally on a DGX Spark.
+
+- **Product brief & architecture:** [`docs/BRIEF.md`](docs/BRIEF.md)
+- **Hackathon tracks & scoring rubric:** [`docs/JUDGING.md`](docs/JUDGING.md)
+  — targets: **Track 3 (Urban Operations)** + **Best Use of NVIDIA Nemotron**.
+- **How to contribute (collaborators):** [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
 ## Structure
 
@@ -28,4 +38,6 @@ uv run ruff check
 
 ## Conventions
 
-<!-- Coding standards, branch naming, commit etiquette, review process, etc. -->
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup, repo layout, secrets/data
+handling, branching, Conventional-Commit style, and PR process. Note: commits
+are authored as a single human — **no AI `Co-Authored-By` trailers.**
