@@ -1,13 +1,11 @@
 'use client';
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import type { MapRef } from 'react-map-gl/maplibre';
 import { CameraController } from '../lib/camera/CameraController';
 import type { PresetName } from '../lib/camera/transitions';
+import { proposalEventBus, type ProposalCameraEvent } from '../lib/agent/proposalEventBus';
 
-export type ProposalCameraEvent =
-  | { type: 'accepted'; proposal: { lat: number; lng: number } }
-  | { type: 'rejected'; proposal: { lat: number; lng: number } }
-  | { type: 'overview' };
+export type { ProposalCameraEvent } from '../lib/agent/proposalEventBus';
 
 export function useAgentCamera(mapRef: React.RefObject<MapRef | null>) {
   const controllerRef = useRef<CameraController | null>(null);
@@ -44,6 +42,11 @@ export function useAgentCamera(mapRef: React.RefObject<MapRef | null>) {
       ctrl.flyToOverview();
     }
   }, []);
+
+  // Subscribe to the event bus so Nemotron can drive camera moves
+  useEffect(() => {
+    return proposalEventBus.subscribe(onProposalEvent);
+  }, [onProposalEvent]);
 
   return {
     controller: getController(),

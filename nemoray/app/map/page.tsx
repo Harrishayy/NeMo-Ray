@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useMemo, useEffect } from 'react';
+import { useRef, useState, useMemo, useEffect, useCallback } from 'react';
 import type { MapRef } from 'react-map-gl/maplibre';
 import MapCanvas from '@/components/map/MapCanvas';
 import BuildingLayer from '@/components/map/BuildingLayer';
@@ -14,6 +14,7 @@ import { useAgentCamera } from '@/hooks/useAgentCamera';
 import { generateRadioMap, LONDON_DEAD_ZONES } from '@/lib/data/mockSionna';
 import { generateMastSites } from '@/lib/data/mockCellTowers';
 import { generateProposals } from '@/lib/data/mockProposals';
+import { proposalEventBus } from '@/lib/agent/proposalEventBus';
 import type { MapInstance } from '@/lib/deck/_coverageStub';
 
 // Generate all mock data once at module level — seeded so no randomness on re-render
@@ -30,21 +31,20 @@ export default function MapPage() {
   const { flyToProposal, flyToOverview } = useAgentCamera(mapRef);
 
   // Stable callback for AgentPanel — wraps flyToProposal, ignores the index param
-  const handleFlyToProposal = useMemo(
-    () => (proposal: { lat: number; lng: number }, _index: number) => {
+  const handleFlyToProposal = useCallback(
+    (proposal: { lat: number; lng: number }, _index: number) => {
       flyToProposal(proposal, 'INSPECT');
     },
     [flyToProposal],
   );
 
-  function handleLoad() {
+  const handleLoad = useCallback(() => {
     const raw = mapRef.current?.getMap();
     if (raw) {
-      // maplibre-gl Map satisfies MapInstance (addControl / removeControl shape)
       setMapInstance(raw as unknown as MapInstance);
     }
     setMapLoaded(true);
-  }
+  }, []);
 
   // Fly to overview once on initial map load
   useEffect(() => {
@@ -53,6 +53,25 @@ export default function MapPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapLoaded]);
+
+  // Subscribe to SSE stream from /api/proposals/stream and feed into the event bus
+  useEffect(() => {
+    const es = new EventSource('/api/proposals/stream');
+    es.onmessage = (e: MessageEvent<string>) => {
+      try {
+        proposalEventBus.emit(JSON.parse(e.data));
+      } catch {
+        // malformed JSON — ignore
+      }
+    };
+    return () => es.close();
+  }, []);
+
+  // Memoize the data arrays passed to deck.gl layers — avoids re-creating layer objects
+  const coveragePoints = useMemo(() => radioMap.points, []);
+  const mastSitesMemo = useMemo(() => mastSites, []);
+  const deadZonesMemo = useMemo(() => deadZones, []);
+  const proposalsMemo = useMemo(() => proposals, []);
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
@@ -65,15 +84,15 @@ export default function MapPage() {
       {/* deck.gl overlay components — need the underlying map instance; mount after load */}
       {mapLoaded && (
         <>
-          <CoverageHeatmap points={radioMap.points} map={mapInstance} />
-          <MastMarkers sites={mastSites} map={mapInstance} />
-          <DeadZoneLayer deadZones={deadZones} map={mapInstance} />
-          <ProposalColumns proposals={proposals} map={mapInstance} />
+          <CoverageHeatmap points={coveragePoints} map={mapInstance} />
+          <MastMarkers sites={mastSitesMemo} map={mapInstance} />
+          <DeadZoneLayer deadZones={deadZonesMemo} map={mapInstance} />
+          <ProposalColumns proposals={proposalsMemo} map={mapInstance} />
         </>
       )}
 
       <AgentPanel
-        proposals={proposals}
+        proposals={proposalsMemo}
         onFlyToProposal={handleFlyToProposal}
         onOverview={flyToOverview}
       />
