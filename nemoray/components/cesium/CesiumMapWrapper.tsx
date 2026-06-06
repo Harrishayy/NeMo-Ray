@@ -9,6 +9,7 @@ import SignalArcs from './SignalArcs';
 import { useCesiumCamera } from '@/hooks/useCesiumCamera';
 import { generateRadioMap } from '@/lib/data/mockSionna';
 import { generateMastSites } from '@/lib/data/mockCellTowers';
+import CesiumPostProcess from './CesiumPostProcess';
 
 const radioMap = generateRadioMap(42);
 const mastSites = generateMastSites(30);
@@ -34,6 +35,7 @@ export default function CesiumMapWrapper() {
         <CoverageVolume points={coveragePoints} />
         <MastBeams sites={sites} />
         <SignalArcs sites={sites} />
+        <CesiumPostProcess />
       </CesiumViewer>
     </div>
   );

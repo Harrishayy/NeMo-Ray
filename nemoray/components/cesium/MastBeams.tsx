@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useRef } from 'react';
 import * as Cesium from 'cesium';
 import { useCesiumViewer } from './CesiumContext';
@@ -16,15 +17,11 @@ export default function MastBeams({ sites }: MastBeamsProps): null {
   useEffect(() => {
     if (!viewer) return;
 
-    // Clear any existing entities and listeners from a previous render
     entitiesRef.current.forEach((e) => viewer.entities.remove(e));
     entitiesRef.current = [];
-    if (listenerRef.current) {
-      listenerRef.current();
-      listenerRef.current = null;
-    }
+    listenerRef.current?.();
+    listenerRef.current = null;
 
-    // Add a cylinder entity for each site
     sites.forEach((site) => {
       const baseColor = site.active
         ? Cesium.Color.fromCssColorString('#00ffc3').withAlpha(0.9)
@@ -46,11 +43,8 @@ export default function MastBeams({ sites }: MastBeamsProps): null {
 
     // Pulse animation: oscillate alpha between 0.7 and 1.0 at 1.5 Hz
     const removeListener = viewer.scene.postRender.addEventListener(() => {
-      const now = Date.now();
-      const t = now / 1000;
-      // oscillate between 0.7 and 1.0 at 1.5 Hz
+      const t = Date.now() / 1000;
       const alpha = 0.7 + 0.3 * (0.5 + 0.5 * Math.sin(2 * Math.PI * 1.5 * t));
-
       entitiesRef.current.forEach((entity, idx) => {
         const site = sites[idx];
         if (!site || !entity.cylinder) return;
@@ -66,10 +60,8 @@ export default function MastBeams({ sites }: MastBeamsProps): null {
     return () => {
       entitiesRef.current.forEach((e) => viewer.entities.remove(e));
       entitiesRef.current = [];
-      if (listenerRef.current) {
-        listenerRef.current();
-        listenerRef.current = null;
-      }
+      listenerRef.current?.();
+      listenerRef.current = null;
     };
   }, [viewer, sites]);
 
