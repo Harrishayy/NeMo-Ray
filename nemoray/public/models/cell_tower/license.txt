@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cell Tower
+* source:	https://sketchfab.com/3d-models/cell-tower-be94716398b0464abb3a9b2e47b3cd8e
+* author:	johnnokomis (https://sketchfab.com/johnnokomis)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cell Tower" (https://sketchfab.com/3d-models/cell-tower-be94716398b0464abb3a9b2e47b3cd8e) by johnnokomis (https://sketchfab.com/johnnokomis) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
