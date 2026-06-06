@@ -52,7 +52,16 @@ export default function CesiumViewer({ children, className, style, onReady }: Ce
 
     const clearContainer = () => {
       const el = document.getElementById('cesiumContainer');
-      if (el) el.innerHTML = '';
+      if (!el) return;
+      // Explicitly lose any held GL contexts before wiping the DOM so the
+      // browser doesn't exhaust its per-page context limit across retries.
+      el.querySelectorAll('canvas').forEach((canvas) => {
+        const gl =
+          canvas.getContext('webgl2') ??
+          (canvas.getContext('webgl') as WebGL2RenderingContext | null);
+        gl?.getExtension('WEBGL_lose_context')?.loseContext();
+      });
+      el.innerHTML = '';
     };
 
     // Async init with retry: after destroy(), the GPU may need a frame or two to
@@ -77,7 +86,12 @@ export default function CesiumViewer({ children, className, style, onReady }: Ce
               ...sharedOptions,
               contextOptions: {
                 requestWebgl1,
-                webgl: { failIfMajorPerformanceCaveat: false },
+                allowTextureFilterAnisotropic: false,
+                webgl: {
+                  failIfMajorPerformanceCaveat: false,
+                  antialias: false,
+                  powerPreference: 'low-power',
+                },
               },
             });
             lastError = null;
@@ -147,10 +161,11 @@ export default function CesiumViewer({ children, className, style, onReady }: Ce
   return (
     <CesiumContext.Provider value={readyViewer}>
       <div
-        id="cesiumContainer"
         className={className}
         style={{ width: '100%', height: '100%', background: '#030a18', position: 'relative', ...style }}
       >
+        {/* Cesium owns this node entirely — keep React children out of it */}
+        <div id="cesiumContainer" style={{ position: 'absolute', inset: 0 }} />
         {children}
       </div>
     </CesiumContext.Provider>

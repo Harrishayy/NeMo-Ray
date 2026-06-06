@@ -7,7 +7,6 @@ import type { SitefinderTowerSite, TransmissionType } from '@/types/sitefinder';
 import {
   getSitePrimaryColor,
   getSiteVisualHeight,
-  getTransmissionColor,
 } from '@/lib/cesium/sitefinderVisuals';
 
 interface SitefinderTowerLayerProps {
@@ -108,22 +107,6 @@ function getPickedSiteId(picked: SitefinderPickedFeature | undefined): string | 
   return typeof propertyValue === 'string' ? propertyValue : undefined;
 }
 
-function localOffset(
-  lng: number, lat: number, height: number,
-  east: number, north: number, up = 0
-): Cesium.Cartesian3 {
-  const origin = Cesium.Cartesian3.fromDegrees(lng, lat, height);
-  const tf = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
-  return Cesium.Matrix4.multiplyByPoint(tf, new Cesium.Cartesian3(east, north, up), new Cesium.Cartesian3());
-}
-
-function orientAt(position: Cesium.Cartesian3, headingDeg: number): Cesium.Quaternion {
-  return Cesium.Transforms.headingPitchRollQuaternion(
-    position,
-    new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(headingDeg), 0, 0)
-  );
-}
-
 function siteProps(site: SitefinderTowerSite) {
   return { sitefinderSiteId: site.id };
 }
@@ -160,47 +143,6 @@ function buildTowerEntities(
       },
     })
   );
-
-  // Antenna panels — frequency-band colour coding overlaid on top of the model
-  const headings = [0, 90, 180, 270];
-  site.transmissions.slice(0, 8).forEach((tx, index) => {
-    const heading = headings[index % headings.length];
-    const side = index % 2 === 0 ? 1 : -1;
-    const lateral = side * (8 + Math.floor(index / 4) * 3);
-    const tier = Math.floor(index / 4);
-    const panelH = Math.max(20, towerHeight * 0.86 - tier * 9);
-    const east = heading === 90 ? lateral : heading === 270 ? -lateral : 0;
-    const north = heading === 0 ? lateral : heading === 180 ? -lateral : 0;
-    const panelPos = localOffset(site.lng, site.lat, g + panelH, east, north);
-    const color = getTransmissionColor(tx.transmissionType, tx.frequencyBand, isSelected ? 0.96 : 0.82);
-
-    entities.push(
-      viewer.entities.add({
-        properties: props,
-        position: panelPos,
-        orientation: orientAt(panelPos, heading),
-        box: {
-          dimensions: new Cesium.Cartesian3(2.45, 0.65, 7.3),
-          material: new Cesium.ColorMaterialProperty(color),
-          distanceDisplayCondition: dd,
-        },
-      })
-    );
-
-    const radomePos = localOffset(site.lng, site.lat, g + panelH + 4.5, east * 0.95, north * 0.95);
-    entities.push(
-      viewer.entities.add({
-        properties: props,
-        position: radomePos,
-        orientation: orientAt(radomePos, heading),
-        ellipsoid: {
-          radii: new Cesium.Cartesian3(1.35, 0.5, 1.35),
-          material: new Cesium.ColorMaterialProperty(Cesium.Color.WHITE.withAlpha(isSelected ? 0.82 : 0.58)),
-          distanceDisplayCondition: dd,
-        },
-      })
-    );
-  });
 
   return entities;
 }
