@@ -46,7 +46,7 @@ export function ProposalList({ className }: { className?: string }) {
         <Readout
           label="Projected gain"
           value={`+${projectedGain.toFixed(1)}%`}
-          valueClassName="text-nv text-glow"
+          valueClassName="text-nv"
         />
         <Readout label="Candidates" value={proposals.length} className="ml-auto" />
       </div>
@@ -55,7 +55,7 @@ export function ProposalList({ className }: { className?: string }) {
         {proposals.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-2 py-10 text-center">
             <Inbox size={20} className="text-ink-faint" />
-            <span className="eyebrow text-ink-faint">No proposals</span>
+            <span className="nm-eyebrow text-ink-faint">No proposals</span>
             <span className="max-w-[220px] text-xs text-ink-dim">
               Run cuOpt to generate candidate mast sites for the active scenario.
             </span>

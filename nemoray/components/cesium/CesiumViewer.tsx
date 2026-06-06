@@ -8,7 +8,7 @@ import * as Cesium from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { applyNightScene } from '@/lib/cesium/sceneEffects';
-import { INITIAL_CAMERA } from '@/lib/cesium/viewerConfig';
+import { GLOBE_CAMERA } from '@/lib/cesium/viewerConfig';
 import { CesiumContext } from './CesiumContext';
 
 Cesium.Ion.defaultAccessToken = process.env.NEXT_PUBLIC_CESIUM_ION_TOKEN ?? '';
@@ -112,7 +112,10 @@ export default function CesiumViewer({ children, className, style, onReady }: Ce
         didInit.current = false;
       } else {
         applyNightScene(viewer);
-        viewer.camera.flyTo(INITIAL_CAMERA);
+        // Start instantly on the far globe view; the single animated fly-in down
+        // to London is owned by the consumer (onReady → controller.flyToLondon),
+        // so the cinematic plays without two flights racing.
+        viewer.camera.setView(GLOBE_CAMERA);
         cesiumViewerRef.current = viewer;
         setReadyViewer(viewer);
         onReady?.(viewer);

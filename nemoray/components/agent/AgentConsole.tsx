@@ -43,7 +43,7 @@ export function AgentConsole({ className }: { className?: string }) {
         right={
           <>
             <StatusDot status={streaming ? "info" : "nominal"} pulse={streaming} />
-            <span className="readout text-[9px] uppercase tracking-[0.12em] text-ink-faint">
+            <span className="nm-readout text-[9px] uppercase tracking-[0.12em] text-ink-faint">
               {streaming ? "LIVE" : "READY"}
             </span>
             <Button
@@ -64,7 +64,7 @@ export function AgentConsole({ className }: { className?: string }) {
         {messages.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 py-8 text-center">
             <StatusDot status="nominal" />
-            <p className="eyebrow text-ink-dim">Awaiting operator command</p>
+            <p className="nm-eyebrow text-ink-dim">Awaiting operator command</p>
             <p className="max-w-[18rem] text-[12px] leading-relaxed text-ink-faint">
               Ask the Nemotron agent to diagnose a site, assess coverage, or run
               the cuOpt optimiser.

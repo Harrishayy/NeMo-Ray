@@ -38,52 +38,28 @@ georeferenced work. `RadioMap` also carries `bbox`, `gridW`, `gridH`.
 
 ```bash
 NEXT_PUBLIC_MAP_IMPL=placeholder   # bundled interactive placeholder (default)
-NEXT_PUBLIC_MAP_IMPL=deck          # your deck.gl scene
+NEXT_PUBLIC_MAP_IMPL=cesium        # the live CesiumJS 3D scene
 ```
 
-Flipping that env var is the **only** switch. When set to `deck`, `MapMount`
-dynamically imports `./DeckScene` and falls back to the placeholder if the
-module isn't there yet — so the demo never breaks while you build.
+Flipping that env var is the **only** switch. `placeholder` is a dependency-free
+canvas mock (fast dev/CI, no Cesium load, no Google Tiles API calls); `cesium`
+is the real demo surface.
 
-## What you build: `components/map/DeckScene.tsx`
+## The live surface: `components/map/CesiumScene.tsx`
 
-Create a client component that implements `MapSurfaceProps` 1:1:
-
-```tsx
-"use client";
-import type { MapSurfaceProps } from "@/lib/types";
-
-export function DeckScene(props: MapSurfaceProps) {
-  // ...deck.gl here. props only — no store imports.
-}
-```
-
-You can reuse the DOM overlays from this folder so the HUD stays consistent:
-`MapOverlayHUD` (selected-site callout + status chip — reads the store itself,
-render it as a sibling on top of your canvas) and `CoverageLegend`
+`CesiumScene` implements `MapSurfaceProps` 1:1 and composes the CesiumJS stack
+(`CesiumViewer` + `PhotorealisticTiles` + `CesiumPostProcess`). Like every
+surface it reads **NOTHING** from the store — props only. The DOM overlays in
+this folder render on top so the HUD stays consistent: `MapOverlayHUD`
+(selected-site callout + status chip) and `CoverageLegend`
 (`signalGradientCss()` ramp).
 
-### Recommended deck.gl stack
+Editing the scene (effects, post-process, camera, beams, arcs, coverage
+volumes)? Use the `edit-cesium-scene` skill — it encodes the order-sensitive
+post-process stack and the common "blank map" / WebGL-crash failure modes.
 
-- **Base:** `Tile3DLayer` + Google Photorealistic 3D Tiles (set an oblique
-  `pitch`/`bearing` `MapViewState`; wire `onViewStateChange`).
-- **Radio map:** drape `radioMap.raster` (if present) as a `BitmapLayer`, OR
-  render `radioMap.cells` as a `PolygonLayer`/`ColumnLayer` grid coloured by
-  `mbpsToRGB(cell.dlMbps)` from [`@/lib/geo/color`](../../lib/geo/color.ts).
-  Respect `layers.radioMap.visible/opacity`.
-- **Beams:** `ColumnLayer` per active site, height ∝ `txPowerDbm`
-  (`layers.beams`).
-- **Backhaul:** `ArcLayer` from each site to `backhaulTargetId`
-  (`layers.backhaul` / `layers.arcs`).
-- **Sites:** `ScatterplotLayer` / `IconLayer`; `onClick → onSelectSite`,
-  `onHover → onHoverSite`; highlight `selectedSiteId` / `hoveredSiteId`.
-- **Dead zones:** red `PolygonLayer` / `ScatterplotLayer` at
-  `deadZone.centroid` sized by `radius`, keyed off `severity`
-  (`layers.deadzone`). This is the deactivation money-shot.
-- **Proposals:** ghost markers at `proposal.placement` / `proposal.position`.
-
-Keep colours on-brand by sourcing them from `@/lib/geo/color` so the legend and
-map never drift.
+Keep colours on-brand by sourcing them from
+[`@/lib/geo/color`](../../lib/geo/color.ts) so the legend and map never drift.
 
 ## Files
 
@@ -91,6 +67,6 @@ map never drift.
 | --- | --- |
 | `MapMount.tsx` | Store → `MapSurfaceProps`; picks impl via env; loading skeleton. |
 | `MapPlaceholder.tsx` | Bundled interactive placeholder (default impl). |
+| `CesiumScene.tsx` | The live CesiumJS surface (`NEXT_PUBLIC_MAP_IMPL=cesium`). |
 | `MapOverlayHUD.tsx` | DOM overlay: selected-site callout + live status chip. |
 | `CoverageLegend.tsx` | Downlink Mbps ramp legend. |
-| `DeckScene.tsx` | **You build this** — the real deck.gl surface. |

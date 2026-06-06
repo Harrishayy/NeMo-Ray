@@ -3,7 +3,7 @@
  *
  * This is the seam between the UI and the DGX-Spark backend. Components import
  * ONLY from here (and `lib/api/*`) — never from `lib/mock/*` or raw backend
- * shapes. The map's two implementations (placeholder + deck.gl) both satisfy
+ * shapes. The map's two implementations (placeholder + Cesium) both satisfy
  * {@link MapSurfaceProps}.
  */
 
@@ -26,7 +26,7 @@ export type SiteStatus = "active" | "deactivated" | "failover";
 export interface Site {
   id: SiteId;
   name: string;
-  /** Real-world position (used by the deck.gl map). */
+  /** Real-world position (used by the Cesium map). */
   position: LngLat;
   /** Normalised position for the placeholder map. Derived from `position`. */
   placement: Norm;
@@ -59,7 +59,7 @@ export interface CoverageCell {
   gy: number;
   /** Normalised cell centre for the placeholder. */
   n: Norm;
-  /** Real-world cell centre for the deck.gl map. */
+  /** Real-world cell centre for the Cesium map. */
   centroid: LngLat;
   dlMbps: number;
   rsrpDbm: number;
@@ -72,7 +72,7 @@ export interface DeadZone {
   /** Normalised centre + radius (placeholder). */
   center: Norm;
   radius: number;
-  /** Real-world centroid (deck.gl). */
+  /** Real-world centroid (Cesium). */
   centroid: LngLat;
   severity: "minor" | "major" | "critical";
   causeSiteId?: SiteId;
@@ -87,41 +87,13 @@ export interface RadioMap {
   resolutionM: number;
   cells: CoverageCell[];
   deadZones: DeadZone[];
-  /** Optional georeferenced raster (real Sionna output) the deck map can drape. */
+  /** Optional georeferenced raster (real Sionna output) the Cesium map can drape. */
   raster?: { url: string; bounds: BBox; width: number; height: number };
   generatedAt: number;
   inputs: { deactivatedSiteIds: SiteId[] };
 }
 
 export type CoverageStatus = "idle" | "computing" | "ready" | "error";
-
-// ── KPIs ────────────────────────────────────────────────────────────────────
-export type KpiState = "nominal" | "warning" | "critical";
-export type KpiId =
-  | "subscribers"
-  | "activeSites"
-  | "availability"
-  | "throughput"
-  | "congestedCells"
-  | "criticalAlerts";
-
-export interface KPI {
-  id: KpiId;
-  label: string;
-  value: number;
-  /** e.g. "/ 321" rendered after the value. */
-  suffix?: string;
-  unit?: string;
-  /** Percentage change vs. baseline. */
-  delta?: number;
-  deltaDirection?: "up" | "down" | "flat";
-  /** Whether an upward delta is good (throughput) or bad (alerts). */
-  invertDelta?: boolean;
-  series: number[];
-  state: KpiState;
-  /** Number formatting hint. */
-  format?: "int" | "decimal1" | "percent1" | "compact";
-}
 
 // ── scenarios + timeline ────────────────────────────────────────────────────
 export type ScenarioId =
@@ -255,9 +227,9 @@ export interface MapViewState {
 }
 
 /**
- * The ONE contract every map implementation satisfies. `MapPlaceholder` (ours)
- * and the collaborator's `DeckScene` both accept exactly this — swapping is a
- * single env flag (`NEXT_PUBLIC_MAP_IMPL`).
+ * The ONE contract every map implementation satisfies. `MapPlaceholder` and
+ * `CesiumScene` both accept exactly this — swapping is a single env flag
+ * (`NEXT_PUBLIC_MAP_IMPL`).
  */
 export interface MapSurfaceProps {
   sites: Site[];
@@ -269,9 +241,21 @@ export interface MapSurfaceProps {
   layers: Record<LayerId, LayerState>;
   coverageStatus: CoverageStatus;
   viewState?: MapViewState;
+  /** One-shot camera intent (nonce-deduped) dispatched from HUD chrome. */
+  cameraCommand?: CameraCommand | null;
   onSelectSite(id: SiteId | null): void;
   onHoverSite(id: SiteId | null): void;
   onViewStateChange?(v: MapViewState): void;
+}
+
+// ── camera command bus ──────────────────────────────────────────────────────
+/** Camera intents a surface can honour. Dispatched via the store's nonce bus. */
+export type CameraCommandType = "zoomIn" | "zoomOut" | "reset" | "tilt2d" | "tilt3d";
+
+/** A one-shot camera intent. `nonce` makes repeats of the same type distinct. */
+export interface CameraCommand {
+  type: CameraCommandType;
+  nonce: number;
 }
 
 // ── workspaces ──────────────────────────────────────────────────────────────
@@ -281,3 +265,8 @@ export type Workspace =
   | "optimiser"
   | "agent"
   | "scenarios";
+
+/** Which panel the left rail is showing (context side). */
+export type LeftRailTab = "network" | "scenarios";
+/** Which panel the right rail is showing (action side). */
+export type RightRailTab = "chat" | "cuopt";

@@ -3,7 +3,6 @@ import { create } from "zustand";
 import { getRadioMap } from "@/lib/api/coverage";
 import type { AgentRequest } from "@/lib/api/agent";
 import { DEFAULT_LAYERS } from "@/lib/layers";
-import { computeKpis } from "@/lib/mock/kpis";
 import { computeMockRadioMap } from "@/lib/mock/radioMap";
 import { MOCK_PROPOSALS } from "@/lib/mock/proposals";
 import { DEFAULT_SCENARIO, MOCK_SCENARIOS } from "@/lib/mock/scenarios";
@@ -11,14 +10,17 @@ import { MOCK_SITES, MOCK_SITES_BY_ID } from "@/lib/mock/sites";
 import type {
   AgentMessage,
   AgentStreamEvent,
+  CameraCommand,
+  CameraCommandType,
   CoverageStatus,
   EventMarker,
-  KPI,
   LayerId,
   LayerState,
+  LeftRailTab,
   Proposal,
   ProposalStatus,
   RadioMap,
+  RightRailTab,
   Scenario,
   ScenarioId,
   Site,
@@ -30,7 +32,6 @@ import type {
 
 // Synchronous first paint — no await, deterministic.
 const INITIAL_RADIO_MAP = computeMockRadioMap(DEFAULT_SCENARIO, []);
-const INITIAL_KPIS = computeKpis(MOCK_SITES, [], INITIAL_RADIO_MAP);
 
 export interface PanelState {
   left: boolean;
@@ -52,7 +53,6 @@ interface NemoState {
   hoveredSiteId: SiteId | null;
   radioMap: RadioMap | null;
   coverageStatus: CoverageStatus;
-  kpis: KPI[];
   proposals: Proposal[];
   selectSite(id: SiteId | null): void;
   hoverSite(id: SiteId | null): void;
@@ -103,11 +103,19 @@ interface NemoState {
   setVoiceTranscribing(v: boolean): void;
   setVoiceSpeaking(v: boolean): void;
 
+  // ── camera ──
+  cameraCommand: CameraCommand | null;
+  requestCamera(type: CameraCommandType): void;
+
   // ── ui ──
   activeWorkspace: Workspace;
+  leftRailTab: LeftRailTab;
+  rightRailTab: RightRailTab;
   panels: PanelState;
   mapFocus: boolean;
   setWorkspace(w: Workspace): void;
+  setLeftRailTab(tab: LeftRailTab): void;
+  setRightRailTab(tab: RightRailTab): void;
   togglePanel(side: keyof PanelState): void;
   setPanel(side: keyof PanelState, collapsed: boolean): void;
   setPanels(p: PanelState): void;
@@ -115,6 +123,7 @@ interface NemoState {
 }
 
 let agentNonce = 0;
+let cameraNonce = 0;
 
 export const useNemoStore = create<NemoState>((set, get) => ({
   // ── scenario ──
@@ -151,7 +160,6 @@ export const useNemoStore = create<NemoState>((set, get) => ({
   hoveredSiteId: null,
   radioMap: INITIAL_RADIO_MAP,
   coverageStatus: "ready",
-  kpis: INITIAL_KPIS,
   proposals: MOCK_PROPOSALS,
 
   selectSite: (id) => set({ selectedSiteId: id }),
@@ -186,14 +194,10 @@ export const useNemoStore = create<NemoState>((set, get) => ({
 
   recomputeCoverage: async () => {
     set({ coverageStatus: "computing" });
-    const { activeScenarioId, deactivatedSiteIds, sites } = get();
+    const { activeScenarioId, deactivatedSiteIds } = get();
     try {
       const rm = await getRadioMap(activeScenarioId, deactivatedSiteIds);
-      set({
-        radioMap: rm,
-        coverageStatus: "ready",
-        kpis: computeKpis(sites, deactivatedSiteIds, rm),
-      });
+      set({ radioMap: rm, coverageStatus: "ready" });
     } catch {
       set({ coverageStatus: "error" });
     }
@@ -327,11 +331,22 @@ export const useNemoStore = create<NemoState>((set, get) => ({
   setVoiceTranscribing: (v) => set({ voiceTranscribing: v }),
   setVoiceSpeaking: (v) => set({ voiceSpeaking: v }),
 
+  // ── camera ──
+  cameraCommand: null,
+  requestCamera: (type) => {
+    cameraNonce += 1;
+    set({ cameraCommand: { type, nonce: cameraNonce } });
+  },
+
   // ── ui ──
   activeWorkspace: "mission",
+  leftRailTab: "network",
+  rightRailTab: "chat",
   panels: { left: false, right: false, bottom: false },
   mapFocus: false,
   setWorkspace: (w) => set({ activeWorkspace: w }),
+  setLeftRailTab: (tab) => set({ leftRailTab: tab }),
+  setRightRailTab: (tab) => set({ rightRailTab: tab }),
   togglePanel: (side) =>
     set((st) => ({ panels: { ...st.panels, [side]: !st.panels[side] } })),
   setPanel: (side, collapsed) =>
@@ -350,8 +365,9 @@ export const useNemoStore = create<NemoState>((set, get) => ({
 }));
 
 // ── convenience selector hooks ──
-export const useKpis = () => useNemoStore((s) => s.kpis);
 export const useSites = () => useNemoStore((s) => s.sites);
 export const useSelectedSite = () =>
   useNemoStore((s) => (s.selectedSiteId ? s.sitesById[s.selectedSiteId] : null));
 export const usePanels = () => useNemoStore((s) => s.panels);
+export const useLeftRailTab = () => useNemoStore((s) => s.leftRailTab);
+export const useRightRailTab = () => useNemoStore((s) => s.rightRailTab);

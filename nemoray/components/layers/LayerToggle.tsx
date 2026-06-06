@@ -84,7 +84,7 @@ export function LayerToggle({ id }: { id: LayerId }) {
             aria-label={`${meta.label} opacity`}
             className="h-3"
           />
-          <span className="readout w-8 shrink-0 text-right text-[10px] text-ink-faint">
+          <span className="nm-readout w-8 shrink-0 text-right text-[10px] text-ink-faint">
             {Math.round(opacity * 100)}%
           </span>
         </div>

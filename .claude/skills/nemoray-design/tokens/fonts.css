@@ -1,0 +1,12 @@
+/* ============================================================
+   NeMo-Ray · Webfonts
+   Manrope      — display + UI. Substitute for NVIDIA Sans (NVIDIA's
+                  custom brand face, not available on Google Fonts).
+                  Manrope is the closest free humanist sans: open
+                  apertures, slightly geometric, neutral and modern.
+                  >>> SUBSTITUTION — swap in real NVIDIA Sans WOFF2s
+                      here if/when licensed.
+   JetBrains Mono — telemetry, numerics, readouts, coordinates.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");

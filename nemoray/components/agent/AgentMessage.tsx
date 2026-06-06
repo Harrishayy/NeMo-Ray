@@ -27,7 +27,7 @@ function Reasoning({ text }: { text: string }) {
           size={11}
           className={cn("transition-transform", open && "rotate-90")}
         />
-        <span className="eyebrow text-[9px]">reasoning</span>
+        <span className="nm-eyebrow text-[9px]">reasoning</span>
       </button>
       {open && (
         <pre className="mt-1 whitespace-pre-wrap border-l border-hairline pl-2 font-mono text-[11px] leading-relaxed text-ink-faint">
@@ -53,7 +53,7 @@ export function AgentMessage({ message }: { message: AgentMessageT }) {
             {content}
           </p>
         </div>
-        <span className="readout pr-2.5 text-[9px] text-ink-faint">{time}</span>
+        <span className="nm-readout pr-2.5 text-[9px] text-ink-faint">{time}</span>
       </div>
     );
   }
@@ -63,8 +63,8 @@ export function AgentMessage({ message }: { message: AgentMessageT }) {
     return (
       <div className="border-l-2 border-critical bg-critical/5 px-2.5 py-1.5">
         <div className="flex items-center justify-between gap-2">
-          <span className="eyebrow text-[9px] text-critical">SYS</span>
-          <span className="readout text-[9px] text-ink-faint">{time}</span>
+          <span className="nm-eyebrow text-[9px] text-critical">SYS</span>
+          <span className="nm-readout text-[9px] text-ink-faint">{time}</span>
         </div>
         <p className="mt-1 whitespace-pre-wrap font-mono text-[11.5px] leading-relaxed text-critical/90">
           {content}
@@ -78,8 +78,8 @@ export function AgentMessage({ message }: { message: AgentMessageT }) {
     <div className="border-l-2 border-nv/60 bg-surface/40 px-2.5 py-1.5">
       <div className="flex items-center gap-2">
         <StatusDot status={streaming ? "info" : "nominal"} pulse={streaming} />
-        <span className="eyebrow text-[9px] text-nv">NEMOTRON</span>
-        <span className="readout ml-auto text-[9px] text-ink-faint">{time}</span>
+        <span className="nm-eyebrow text-[9px] text-nv">NEMOTRON</span>
+        <span className="nm-readout ml-auto text-[9px] text-ink-faint">{time}</span>
       </div>
 
       <p className="mt-1 whitespace-pre-wrap text-[13px] leading-relaxed text-ink">
@@ -87,7 +87,7 @@ export function AgentMessage({ message }: { message: AgentMessageT }) {
         {streaming && (
           <span
             aria-hidden
-            className="ml-0.5 inline-block h-[1.05em] w-[0.5ch] translate-y-[0.12em] animate-blink bg-nv align-baseline"
+            className="ml-0.5 inline-block h-[1.05em] w-[0.5ch] translate-y-[0.12em] nm-blink bg-nv align-baseline"
           />
         )}
       </p>

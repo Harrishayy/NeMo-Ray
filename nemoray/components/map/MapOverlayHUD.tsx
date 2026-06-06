@@ -42,19 +42,19 @@ export function MapOverlayHUD() {
       {/* ── live status chip (top-right) ── */}
       <div className="pointer-events-none absolute right-3 top-3 z-30 flex items-stretch border border-hairline bg-panel/85 backdrop-blur-sm">
         <ChipCell label="Status">
-          <span className={cn("readout", STATUS_COLOR[coverageStatus])}>
+          <span className={cn("nm-readout", STATUS_COLOR[coverageStatus])}>
             {STATUS_LABEL[coverageStatus]}
           </span>
         </ChipCell>
         <ChipCell label="Active">
-          <span className="readout text-ink">
+          <span className="nm-readout text-ink">
             {activeCount}
             <span className="text-ink-faint">/{sites.length}</span>
           </span>
         </ChipCell>
         <ChipCell label="Dead Zones" last>
           <span
-            className={cn("readout", deadZones > 0 ? "text-critical" : "text-nv")}
+            className={cn("nm-readout", deadZones > 0 ? "text-critical" : "text-nv")}
           >
             {deadZones}
           </span>
@@ -64,11 +64,11 @@ export function MapOverlayHUD() {
       {/* ── selected-site callout (top-left) ── */}
       {selected && (
         <div className="pointer-events-auto absolute left-3 top-3 z-30 w-64 select-none">
-          <div className="hud-frame relative border border-hairline-strong bg-panel/90 p-3 backdrop-blur-sm">
+          <div className="relative border border-hairline-strong bg-panel/90 p-3 backdrop-blur-sm">
             {/* header */}
             <div className="mb-2 flex items-start justify-between gap-2">
               <div className="min-w-0">
-                <div className="readout text-nv text-[13px]">{selected.id}</div>
+                <div className="nm-readout text-nv text-[13px]">{selected.id}</div>
                 <div className="truncate text-sm text-ink">{selected.name}</div>
               </div>
               <button
@@ -98,10 +98,10 @@ export function MapOverlayHUD() {
 
             {/* status row */}
             <div className="mt-2 flex items-center gap-1.5 border-t border-hairline pt-2">
-              <span className="eyebrow text-ink-faint">State</span>
+              <span className="nm-eyebrow text-ink-faint">State</span>
               <span
                 className={cn(
-                  "readout uppercase",
+                  "nm-readout uppercase",
                   selected.status === "active"
                     ? "text-nv"
                     : selected.status === "failover"
@@ -160,7 +160,7 @@ function ChipCell({
         !last && "border-r border-hairline",
       )}
     >
-      <span className="eyebrow text-[9px]">{label}</span>
+      <span className="nm-eyebrow text-[9px]">{label}</span>
       {children}
     </div>
   );
@@ -177,8 +177,8 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <span className="eyebrow text-[9px]">{label}</span>
-      <span className="readout text-ink">
+      <span className="nm-eyebrow text-[9px]">{label}</span>
+      <span className="nm-readout text-ink">
         {value}
         {unit && <span className="ml-0.5 text-[0.8em] text-ink-dim">{unit}</span>}
       </span>

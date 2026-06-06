@@ -21,6 +21,10 @@ dist/
 .env.*
 !.env.example
 
+# Claude Code local settings
+.claude/settings.json
+.claude/settings.local.json
+
 # Editors / OS
 .DS_Store
 Thumbs.db

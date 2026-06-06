@@ -19,7 +19,7 @@ export function BottomBarContent({ className }: { className?: string }) {
     >
       {/* ── event timeline row ── */}
       <div className="flex items-start gap-3 px-3 py-2">
-        <span className="eyebrow mt-1 w-[88px] shrink-0 leading-[1.4]">Event Timeline</span>
+        <span className="nm-eyebrow mt-1 w-[88px] shrink-0 leading-[1.4]">Event Timeline</span>
         <EventTimeline className="min-w-0 flex-1" />
       </div>
 
@@ -27,7 +27,7 @@ export function BottomBarContent({ className }: { className?: string }) {
 
       {/* ── scenarios row ── */}
       <div className="flex items-center gap-3 px-3 py-2">
-        <span className="eyebrow w-[88px] shrink-0">Scenarios</span>
+        <span className="nm-eyebrow w-[88px] shrink-0">Scenarios</span>
         <ScenarioTabs className="min-w-0 flex-1" />
       </div>
     </div>

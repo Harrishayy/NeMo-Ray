@@ -69,7 +69,7 @@ export function CollapsiblePanel({
         >
           <ExpandIcon size={14} className="shrink-0" />
           <span
-            className="eyebrow whitespace-nowrap group-hover:text-nv"
+            className="nm-eyebrow whitespace-nowrap group-hover:text-nv"
             style={horizontal ? { writingMode: "vertical-rl", transform: "rotate(180deg)" } : undefined}
           >
             {label}

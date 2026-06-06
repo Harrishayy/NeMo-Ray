@@ -3,7 +3,7 @@
 import * as RSlider from "@radix-ui/react-slider";
 import { cn } from "@/lib/cn";
 
-/** Thin HUD slider with a green fill and a square handle. */
+/** Thin range control with a green fill and a round green-ringed thumb. */
 export function Slider({
   value,
   min = 0,
@@ -25,7 +25,7 @@ export function Slider({
 }) {
   return (
     <RSlider.Root
-      className={cn("relative flex h-4 w-full touch-none select-none items-center", className)}
+      className={cn("nm-slider", className)}
       value={[value]}
       min={min}
       max={max}
@@ -34,11 +34,14 @@ export function Slider({
       onValueCommit={(v) => onValueCommit?.(v[0])}
       aria-label={ariaLabel}
     >
-      <RSlider.Track className="relative h-[3px] w-full grow bg-hairline-strong">
-        <RSlider.Range className="absolute h-full bg-nv shadow-[0_0_8px_var(--color-nv-glow)]" />
+      <RSlider.Track className="nm-slider-track">
+        <RSlider.Range className="nm-slider-range" />
       </RSlider.Track>
+      {/* Visual-only thumb: Radix owns positioning, so we apply the skill's
+          round green-ringed look via token utilities (not .nm-slider-thumb,
+          whose absolute positioning would fight Radix's inline transform). */}
       <RSlider.Thumb
-        className="block h-3 w-[6px] cursor-grab bg-nv-bright shadow-[0_0_8px_var(--color-nv-glow)] outline-none focus-visible:ring-1 focus-visible:ring-nv active:cursor-grabbing"
+        className="block h-[13px] w-[13px] cursor-grab rounded-full border-[3px] border-nv bg-white shadow-[var(--shadow-sm)] outline-none focus-visible:ring-2 focus-visible:ring-nv active:cursor-grabbing"
         aria-label={ariaLabel}
       />
     </RSlider.Root>

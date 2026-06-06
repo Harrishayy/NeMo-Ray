@@ -71,7 +71,7 @@ export function EventTimeline({ className }: { className?: string }) {
           className={cn(
             "flex h-7 w-8 items-center justify-center border transition-all",
             playing
-              ? "border-nv bg-nv/15 text-nv shadow-[0_0_14px_-4px_var(--color-nv-glow)]"
+              ? "border-nv bg-nv/15 text-nv"
               : "border-hairline-strong text-ink hover:border-nv hover:text-nv",
           )}
         >
@@ -88,7 +88,7 @@ export function EventTimeline({ className }: { className?: string }) {
               aria-pressed={speed === s}
               onClick={() => setSpeed(s)}
               className={cn(
-                "readout flex h-7 w-7 items-center justify-center text-[11px] transition-colors",
+                "nm-readout flex h-7 w-7 items-center justify-center text-[11px] transition-colors",
                 speed === s
                   ? "bg-nv/15 text-nv"
                   : "text-ink-faint hover:text-ink-dim",
@@ -108,7 +108,7 @@ export function EventTimeline({ className }: { className?: string }) {
           {ticks.map((t) => (
             <span
               key={t.tMs}
-              className="readout absolute -translate-x-1/2 text-[9px] text-ink-faint"
+              className="nm-readout absolute -translate-x-1/2 text-[9px] text-ink-faint"
               style={{ left: `${t.pct}%` }}
             >
               {clock(t.tMs)}
@@ -132,10 +132,10 @@ export function EventTimeline({ className }: { className?: string }) {
             className="pointer-events-none absolute -top-3 bottom-0 z-20 -translate-x-1/2"
             style={{ left: `${playheadPct}%` }}
           >
-            <span className="readout absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-bg/80 px-1 text-[10px] text-nv-bright text-glow">
+            <span className="nm-readout absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-bg/80 px-1 text-[10px] text-nv-bright">
               {clock(positionMs)}
             </span>
-            <span className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-nv shadow-[0_0_8px_var(--color-nv-glow)]" />
+            <span className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-nv" />
           </div>
         </div>
 
@@ -161,14 +161,14 @@ export function EventTimeline({ className }: { className?: string }) {
         className={cn(
           "flex h-7 shrink-0 items-center gap-1.5 border px-2.5 text-[11px] font-medium uppercase tracking-[0.14em] transition-all",
           isLive
-            ? "border-nv bg-nv/15 text-nv shadow-[0_0_14px_-4px_var(--color-nv-glow)]"
+            ? "border-nv bg-nv/15 text-nv"
             : "border-hairline-strong text-ink-dim hover:border-nv hover:text-nv",
         )}
       >
         <span
           className={cn(
             "inline-block h-2 w-2 rounded-full",
-            isLive ? "bg-nv shadow-[0_0_8px_var(--color-nv)] animate-pulse-soft" : "bg-ink-faint",
+            isLive ? "bg-nv shadow-[0_0_8px_var(--color-nv)] nm-pulse" : "bg-ink-faint",
           )}
         />
         <Radio size={11} className="opacity-70" />

@@ -24,7 +24,7 @@ export function ToolPipeline({ className }: { className?: string }) {
         right={
           <span
             className={cn(
-              "readout text-[9px] uppercase tracking-[0.12em]",
+              "nm-readout text-[9px] uppercase tracking-[0.12em]",
               running ? "text-info" : "text-ink-faint",
             )}
           >
@@ -40,7 +40,7 @@ export function ToolPipeline({ className }: { className?: string }) {
                 key={slot}
                 className="flex h-[52px] flex-col justify-center gap-1 border border-dashed border-hairline bg-bg/40 px-2.5"
               >
-                <span className="eyebrow text-[8px] text-ink-faint">SLOT</span>
+                <span className="nm-eyebrow text-[8px] text-ink-faint">SLOT</span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
                   {slot}
                 </span>

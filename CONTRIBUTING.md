@@ -11,6 +11,14 @@ bounty** — keep that lens when making trade-offs.
 > swap in anything better and stay open-minded. The only things to treat as
 > fixed are the prize targets and the judges' rubric; the rest is yours to
 > improve. Don't let a named choice here override your own knowledge.
+>
+> **Scope of that freedom:** it covers *product and tooling* choices. The UI has a
+> small set of code-level **locked invariants** (e.g. Cesium needs `reactStrictMode:
+> false`, the map seam, the Zustand backbone) recorded in
+> [`nemoray/docs/INVARIANTS.md`](./nemoray/docs/INVARIANTS.md) — each with a *why* and
+> an explicit-intent escape hatch. Don't cite this paragraph to justify flipping one of
+> those without saying so. Design language lives in
+> [`nemoray/docs/DESIGN-SYSTEM.md`](./nemoray/docs/DESIGN-SYSTEM.md).
 
 ## TL;DR for a new Claude instance
 

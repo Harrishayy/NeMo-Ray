@@ -1,0 +1,19 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#76b900" stroke-width="1.6" stroke-linecap="round" fill="none">
+    <!-- signal waves, left -->
+    <path d="M11.4 8.6a6.5 6.5 0 0 0 0 6.8" opacity="0.55"/>
+    <path d="M13.4 10.2a3.2 3.2 0 0 0 0 3.6" opacity="0.85"/>
+    <!-- signal waves, right -->
+    <path d="M20.6 8.6a6.5 6.5 0 0 1 0 6.8" opacity="0.55"/>
+    <path d="M18.6 10.2a3.2 3.2 0 0 1 0 3.6" opacity="0.85"/>
+    <!-- tower legs -->
+    <path d="M16 13.5 L10 26.5"/>
+    <path d="M16 13.5 L22 26.5"/>
+    <!-- crossbars -->
+    <path d="M14.4 17 L17.6 17"/>
+    <path d="M13.2 21 L18.8 21"/>
+    <path d="M12 25 L20 25"/>
+  </g>
+  <!-- antenna tip -->
+  <circle cx="16" cy="12" r="2" fill="#9fe000"/>
+</svg>

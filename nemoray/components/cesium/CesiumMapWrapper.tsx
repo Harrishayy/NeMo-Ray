@@ -11,6 +11,13 @@ import type { SitefinderPayload, SitefinderTowerSite, TransmissionType } from '@
 
 const TRANSMISSION_FILTERS: TransmissionType[] = ['GSM', 'UMTS', 'TETRA', 'GSM-R', 'LTE', 'UNKNOWN'];
 
+/**
+ * Standalone full-viewport Cesium scene for the /map route. Photorealistic city
+ * tiles plus the live Sitefinder tower layer (3D antenna/tower GLTF models,
+ * selectable, filterable by transmission type and operator). To bring back the
+ * mock coverage/mast overlays, re-mount `MastBeams` / `CoverageVolume` /
+ * `SignalArcs` inside the `<CesiumViewer>` here.
+ */
 export default function CesiumMapWrapper() {
   const { flyToLondon, flyToSite } = useCesiumCamera(cesiumViewerRef as React.MutableRefObject<Cesium.Viewer | null>);
   const { selectedSite, setSelectedSite, clearSelectedSite } = useSitefinderSelection();

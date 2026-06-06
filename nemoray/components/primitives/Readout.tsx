@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-/** A labelled mono numeric readout — label above, value below. */
+/** A labelled mono numeric readout — eyebrow label above, tabular value below. */
 export function Readout({
   label,
   value,
@@ -16,11 +16,11 @@ export function Readout({
   valueClassName?: string;
 }) {
   return (
-    <div className={cn("flex flex-col gap-0.5", className)}>
-      <span className="eyebrow">{label}</span>
-      <span className={cn("readout text-ink", valueClassName)}>
+    <div className={cn("nm-readout-block", className)}>
+      <span className="nm-eyebrow">{label}</span>
+      <span className={cn("nm-readout-value text-ink", valueClassName)}>
         {value}
-        {unit && <span className="ml-1 text-ink-dim text-[0.75em]">{unit}</span>}
+        {unit && <span className="nm-readout-unit">{unit}</span>}
       </span>
     </div>
   );

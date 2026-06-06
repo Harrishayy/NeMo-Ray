@@ -1,0 +1,140 @@
+/* ============================================================
+   NeMo-Ray · Component styles
+   Class-based styling for reusable primitives. Hover/focus/active
+   states live here; everything resolves from the token layer.
+   Ported verbatim from the nemoray-design skill.
+   ============================================================ */
+
+/* ---------- Button ------------------------------------- */
+.nm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  border-radius: var(--radius-control);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.nm-btn:active { transform: translateY(1px); }
+.nm-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface-bg), 0 0 0 3px var(--nv-green); }
+.nm-btn:disabled { cursor: not-allowed; opacity: 0.4; transform: none; }
+.nm-btn svg { width: 1.1em; height: 1.1em; }
+
+.nm-btn--sm { height: 30px; padding: 0 12px; font-size: 11px; }
+.nm-btn--md { height: 36px; padding: 0 16px; font-size: 12px; }
+.nm-btn--lg { height: 44px; padding: 0 22px; font-size: 13px; }
+
+.nm-btn--solid { background: var(--nv-green); color: var(--text-on-accent); border-color: var(--nv-green); }
+.nm-btn--solid:hover:not(:disabled) { background: var(--nv-green-bright); border-color: var(--nv-green-bright); }
+.nm-btn--outline { background: transparent; color: var(--text-primary); border-color: var(--border-control); }
+.nm-btn--outline:hover:not(:disabled) { border-color: var(--nv-green); color: var(--nv-green); background: var(--nv-green-wash-soft); }
+.nm-btn--ghost { background: transparent; color: var(--text-tertiary); }
+.nm-btn--ghost:hover:not(:disabled) { background: var(--surface-overlay); color: var(--text-primary); }
+.nm-btn--danger { background: var(--wash-critical); color: var(--status-critical); border-color: rgba(255,59,48,0.4); }
+.nm-btn--danger:hover:not(:disabled) { background: rgba(255,59,48,0.18); border-color: var(--status-critical); }
+
+/* ---------- StatusDot ---------------------------------- */
+.nm-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.nm-dot--nominal { background: var(--status-nominal); }
+.nm-dot--warning { background: var(--status-warning); }
+.nm-dot--critical { background: var(--status-critical); }
+.nm-dot--info { background: var(--status-info); }
+.nm-dot--idle { background: var(--status-idle); }
+
+/* ---------- Badge (rectangular label, not a pill) ------ */
+.nm-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-sans); font-weight: var(--weight-bold);
+  font-size: 10px; text-transform: uppercase; letter-spacing: var(--tracking-caps);
+  line-height: 1; padding: 5px 9px; border-radius: var(--radius-xs); white-space: nowrap;
+  border: 1px solid var(--line); color: var(--text-secondary); background: var(--surface-overlay);
+}
+.nm-badge--solid { background: var(--nv-green); color: var(--text-on-accent); border-color: var(--nv-green); }
+.nm-badge--nominal { color: var(--status-nominal); border-color: var(--line-accent); background: var(--wash-nominal); }
+.nm-badge--warning { color: var(--status-warning); border-color: rgba(255,176,32,0.35); background: var(--wash-warning); }
+.nm-badge--critical { color: var(--status-critical); border-color: rgba(255,59,48,0.4); background: var(--wash-critical); }
+.nm-badge--info { color: var(--status-info); border-color: rgba(42,208,255,0.35); background: var(--wash-info); }
+
+/* ---------- Card --------------------------------------- */
+.nm-card-root {
+  position: relative; display: flex; flex-direction: column; min-height: 0;
+  background: var(--surface-card); border: 1px solid var(--border-card);
+  border-radius: var(--radius-card); box-shadow: var(--shadow-card);
+  transition: border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+}
+.nm-card-root--interactive { cursor: pointer; }
+.nm-card-root--interactive:hover { border-color: var(--border-card-hover); box-shadow: var(--shadow-md); }
+.nm-card-root--active { border-color: var(--line-accent); box-shadow: var(--glow-accent); }
+.nm-card-header { display: flex; align-items: center; gap: 10px; padding: 16px var(--pad-card); border-bottom: 1px solid var(--line-subtle); }
+.nm-card-tick { width: 3px; height: 14px; border-radius: var(--radius-pill); background: var(--nv-green); flex-shrink: 0; }
+.nm-card-title { font-family: var(--font-sans); font-size: 13px; font-weight: var(--weight-semibold); color: var(--text-primary); flex: 1; min-width: 0; }
+.nm-card-body { padding: var(--pad-card); min-height: 0; }
+
+/* ---------- Readout ------------------------------------ */
+.nm-readout-block { display: flex; flex-direction: column; gap: 8px; }
+.nm-readout-value { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: var(--tracking-tight); color: var(--text-primary); line-height: 1; }
+.nm-readout-unit { color: var(--text-tertiary); font-size: 0.62em; margin-left: 3px; letter-spacing: 0; }
+.nm-delta { display: inline-flex; align-items: center; gap: 3px; font-family: var(--font-mono); font-size: 11px; font-variant-numeric: tabular-nums; }
+.nm-delta--up { color: var(--status-nominal); }
+.nm-delta--down { color: var(--status-critical); }
+.nm-delta--flat { color: var(--text-tertiary); }
+
+/* ---------- Switch ------------------------------------- */
+.nm-switch { position: relative; width: 34px; height: 18px; border-radius: var(--radius-pill); background: var(--surface-inset); border: 1px solid var(--line-strong); cursor: pointer; flex-shrink: 0; transition: background var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out); }
+.nm-switch[data-on="true"], .nm-switch[data-state="checked"] { background: var(--nv-green); border-color: var(--nv-green); }
+.nm-switch:disabled { opacity: 0.4; cursor: not-allowed; }
+.nm-switch-knob { position: absolute; top: 1px; left: 1px; width: 14px; height: 14px; border-radius: 50%; background: var(--text-secondary); transition: transform var(--dur-base) var(--ease-spring), background var(--dur-base) var(--ease-out); }
+.nm-switch[data-on="true"] .nm-switch-knob, .nm-switch[data-state="checked"] .nm-switch-knob { transform: translateX(16px); background: #06140a; }
+
+/* ---------- Slider ------------------------------------- */
+.nm-slider { position: relative; display: flex; align-items: center; width: 100%; height: 16px; cursor: pointer; }
+.nm-slider-track { position: relative; height: 3px; width: 100%; border-radius: var(--radius-pill); background: var(--line-strong); }
+.nm-slider-range { position: absolute; left: 0; height: 100%; border-radius: var(--radius-pill); background: var(--nv-green); }
+.nm-slider-thumb { position: absolute; top: 50%; width: 13px; height: 13px; border-radius: 50%; background: #fff; border: 3px solid var(--nv-green); box-shadow: var(--shadow-sm); transform: translate(-50%, -50%); }
+
+/* ---------- Tabs (segmented) --------------------------- */
+.nm-tabs { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--radius-control); background: var(--surface-inset); border: 1px solid var(--line-subtle); }
+.nm-tab { appearance: none; border: 0; background: transparent; font-family: var(--font-sans); font-weight: var(--weight-semibold); font-size: 11px; text-transform: uppercase; letter-spacing: var(--tracking-caps); color: var(--text-tertiary); padding: 7px 14px; border-radius: calc(var(--radius-control) - 3px); cursor: pointer; transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out); }
+.nm-tab:hover { color: var(--text-primary); }
+.nm-tab[data-active="true"] { color: var(--text-on-accent); background: var(--nv-green); }
+
+/* ---------- LayerToggle -------------------------------- */
+.nm-layer { display: flex; flex-direction: column; gap: 8px; padding: 10px 14px; border-left: 2px solid transparent; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; transition: background var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out); }
+.nm-layer[data-on="true"] { border-left-color: var(--nv-green); }
+.nm-layer[data-on="true"]:hover { background: var(--nv-green-wash-soft); }
+.nm-layer[data-on="false"] { opacity: 0.5; }
+.nm-layer[data-on="false"]:hover { opacity: 0.8; }
+.nm-layer-head { display: flex; align-items: center; gap: 10px; }
+.nm-layer-label { font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--text-primary); flex: 1; }
+
+/* ---------- ToolCard ----------------------------------- */
+.nm-tool { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--surface-overlay); transition: border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
+.nm-tool[data-status="running"] { border-color: rgba(74,144,226,0.45); }
+.nm-tool[data-status="success"] { border-color: var(--line-accent); }
+.nm-tool[data-status="error"] { border-color: rgba(224,82,77,0.45); }
+.nm-tool-head { display: flex; align-items: center; gap: 8px; }
+.nm-tool-label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-primary); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nm-tool-status { font-family: var(--font-mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; display: inline-flex; align-items: center; gap: 4px; }
+.nm-tool-bar { height: 3px; width: 100%; border-radius: var(--radius-pill); background: var(--surface-inset); overflow: hidden; }
+.nm-tool-fill { height: 100%; border-radius: var(--radius-pill); background: var(--status-info); transition: width var(--dur-slow) var(--ease-out); }
+.nm-tool-result { font-family: var(--font-mono); font-size: 10.5px; line-height: 1.55; color: var(--text-tertiary); }
+
+/* ---------- AgentMessage ------------------------------- */
+.nm-msg { border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; line-height: 1.6; }
+.nm-msg--agent { border-left: 2px solid var(--line-accent); background: var(--nv-green-wash-soft); color: var(--text-secondary); }
+.nm-msg--operator { background: var(--surface-overlay); border: 1px solid var(--line); color: var(--text-primary); }
+.nm-msg--system { color: var(--text-tertiary); font-family: var(--font-mono); font-size: 11px; }
+.nm-msg-role { font-family: var(--font-sans); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); margin-bottom: 7px; display: block; }
+.nm-msg--agent .nm-msg-role { color: var(--nv-green); }
+.nm-msg--operator .nm-msg-role { color: var(--text-tertiary); }
