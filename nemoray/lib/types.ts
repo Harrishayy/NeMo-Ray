@@ -265,3 +265,8 @@ export type Workspace =
   | "optimiser"
   | "agent"
   | "scenarios";
+
+/** Which panel the left rail is showing (context side). */
+export type LeftRailTab = "network" | "scenarios";
+/** Which panel the right rail is showing (action side). */
+export type RightRailTab = "chat" | "cuopt";

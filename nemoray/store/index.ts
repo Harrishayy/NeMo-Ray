@@ -16,9 +16,11 @@ import type {
   EventMarker,
   LayerId,
   LayerState,
+  LeftRailTab,
   Proposal,
   ProposalStatus,
   RadioMap,
+  RightRailTab,
   Scenario,
   ScenarioId,
   Site,
@@ -107,9 +109,13 @@ interface NemoState {
 
   // ── ui ──
   activeWorkspace: Workspace;
+  leftRailTab: LeftRailTab;
+  rightRailTab: RightRailTab;
   panels: PanelState;
   mapFocus: boolean;
   setWorkspace(w: Workspace): void;
+  setLeftRailTab(tab: LeftRailTab): void;
+  setRightRailTab(tab: RightRailTab): void;
   togglePanel(side: keyof PanelState): void;
   setPanel(side: keyof PanelState, collapsed: boolean): void;
   setPanels(p: PanelState): void;
@@ -334,9 +340,13 @@ export const useNemoStore = create<NemoState>((set, get) => ({
 
   // ── ui ──
   activeWorkspace: "mission",
+  leftRailTab: "network",
+  rightRailTab: "chat",
   panels: { left: false, right: false, bottom: false },
   mapFocus: false,
   setWorkspace: (w) => set({ activeWorkspace: w }),
+  setLeftRailTab: (tab) => set({ leftRailTab: tab }),
+  setRightRailTab: (tab) => set({ rightRailTab: tab }),
   togglePanel: (side) =>
     set((st) => ({ panels: { ...st.panels, [side]: !st.panels[side] } })),
   setPanel: (side, collapsed) =>
@@ -359,3 +369,5 @@ export const useSites = () => useNemoStore((s) => s.sites);
 export const useSelectedSite = () =>
   useNemoStore((s) => (s.selectedSiteId ? s.sitesById[s.selectedSiteId] : null));
 export const usePanels = () => useNemoStore((s) => s.panels);
+export const useLeftRailTab = () => useNemoStore((s) => s.leftRailTab);
+export const useRightRailTab = () => useNemoStore((s) => s.rightRailTab);

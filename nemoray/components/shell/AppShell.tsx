@@ -11,13 +11,13 @@ import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { useNemoStore } from "@/store";
 import { CollapsiblePanel } from "./CollapsiblePanel";
 import { TopBar } from "./TopBar";
-import { WorkspaceTabs } from "./WorkspaceTabs";
 
 /**
- * The mission-control shell. A fixed, non-scrolling instrument: top bar +
- * workspace tabs over a middle row (collapsible left rail · persistent map ·
- * collapsible right rail) above a collapsible bottom bar. `children` overlay on
- * top of the always-mounted map per workspace.
+ * The mission-control shell. A fixed, non-scrolling instrument: a thin brand
+ * bar over a middle row (collapsible left rail · persistent map · collapsible
+ * right rail) above a collapsible bottom bar. Each rail carries its own tab
+ * strip to swap what it shows (Network/Scenarios · Chat/cuOpt). `children`
+ * overlay on top of the always-mounted map per workspace.
  */
 export function AppShell({ children }: { children: ReactNode }) {
   const panels = useNemoStore((s) => s.panels);
@@ -28,13 +28,12 @@ export function AppShell({ children }: { children: ReactNode }) {
     <TooltipProvider>
       <div className="flex h-screen flex-col overflow-hidden bg-bg">
         <TopBar />
-        <WorkspaceTabs />
 
         {/* middle row */}
         <div className="flex min-h-0 flex-1">
           <CollapsiblePanel
             side="left"
-            label="Network"
+            label="Context"
             collapsed={panels.left}
             onToggle={() => togglePanel("left")}
             expandedSize={320}
@@ -52,7 +51,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <CollapsiblePanel
             side="right"
-            label="AI Agent"
+            label="Assistant"
             collapsed={panels.right}
             onToggle={() => togglePanel("right")}
             expandedSize={372}

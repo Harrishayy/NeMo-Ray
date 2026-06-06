@@ -18,11 +18,11 @@ export const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "";
 
 /** App identity shown in the chrome. */
 export const APP = {
-  org: "NVIDIA",
+  org: "NeMo-Ray",
   product: "NeMo-Ray",
-  title: "AI-RAN MISSION CONTROL",
+  title: "AI-RAN",
   subtitle: "DIGITAL TWIN // REAL-TIME",
-  region: "CENTRAL LONDON",
-  network: "EMERGENCY SERVICES NETWORK",
-  operator: "NOC-01",
+  region: "London",
+  network: "Emergency Services Network (ESN)",
+  operator: "GPU Goblins",
 } as const;
