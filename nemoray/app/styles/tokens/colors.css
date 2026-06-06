@@ -1,0 +1,99 @@
+/* ============================================================
+   NeMo-Ray · Color tokens
+   A standard, professional dark-dashboard palette. Neutral slate
+   surfaces (not green-tinted near-black), a restrained NVIDIA-green
+   accent used sparingly, and conventional status colors. No neon,
+   no heavy glow — calm and readable, like a modern enterprise tool.
+
+   Source of truth for the design system's colour values. Ported from
+   the nemoray-design skill; the signal ramp below is intentionally
+   kept at the app's *vivid* values (mirror of lib/geo/color.ts) so
+   the coverage legend matches the map render.
+   ============================================================ */
+
+:root {
+  /* ---- Brand · green accent (restrained) ---------------- */
+  --nv-green: #76b900;        /* primary brand accent          */
+  --nv-green-bright: #8fd400; /* hover lift                    */
+  --nv-green-dim: #5f9400;    /* pressed / secondary           */
+  --nv-green-deep: #38500f;   /* faint fills, inactive accent  */
+  --nv-green-glow: rgba(118, 185, 0, 0.22);
+  --nv-green-wash: rgba(118, 185, 0, 0.12);
+  --nv-green-wash-soft: rgba(118, 185, 0, 0.06);
+
+  /* ---- Surfaces · neutral slate ------------------------ */
+  --surface-bg: #0d0f12;       /* app background               */
+  --surface-base: #131619;     /* base panel ground            */
+  --surface-raised: #181c21;   /* cards, panels                */
+  --surface-overlay: #1f242b;  /* popovers, dialogs, hover     */
+  --surface-elevated: #272d35; /* active rows, raised controls */
+  --surface-inset: #0a0c0e;    /* wells, tracks, inputs        */
+
+  /* ---- Hairlines · neutral, low-alpha ------------------ */
+  --line-subtle: rgba(255, 255, 255, 0.06);
+  --line: rgba(255, 255, 255, 0.10);
+  --line-strong: rgba(255, 255, 255, 0.15);
+  --line-accent: rgba(118, 185, 0, 0.45);
+  --line-accent-soft: rgba(118, 185, 0, 0.22);
+  --grid-line: rgba(255, 255, 255, 0.035);
+
+  /* ---- Text -------------------------------------------- */
+  --text-primary: #eef1f3;   /* headlines, key readouts        */
+  --text-secondary: #b4bcc4; /* body copy                      */
+  --text-tertiary: #828c96;  /* supporting / muted             */
+  --text-faint: #5a636d;     /* eyebrows, ticks, placeholders  */
+  --text-on-accent: #0c1500; /* text on green fills            */
+
+  /* ---- Status · standard, slightly muted --------------- */
+  --status-nominal: #5cae3c;   /* success green (calmer)        */
+  --status-warning: #e0a52a;   /* amber                        */
+  --status-critical: #e0524d;  /* red                          */
+  --status-info: #4a90e2;      /* standard blue (was neon cyan)*/
+  --status-idle: #5a636d;      /* grey                         */
+
+  /* status washes for backgrounds */
+  --wash-nominal: rgba(92, 174, 60, 0.12);
+  --wash-warning: rgba(224, 165, 42, 0.12);
+  --wash-critical: rgba(224, 82, 77, 0.12);
+  --wash-info: rgba(74, 144, 226, 0.12);
+
+  /* ---- Signal ramp · downlink bandwidth ---------------- */
+  /* functional data-viz scale: red → amber → green → cyan.
+     KEPT VIVID — must stay in sync with lib/geo/color.ts so the
+     CoverageLegend gradient matches the map render. */
+  --signal-critical: #ff3b30;
+  --signal-low: #ff8a00;
+  --signal-medium: #ffd60a;
+  --signal-good: #76b900;
+  --signal-excellent: #00d0ff;
+  --signal-gradient: linear-gradient(
+    90deg,
+    var(--signal-critical) 0%,
+    var(--signal-low) 28%,
+    var(--signal-medium) 50%,
+    var(--signal-good) 74%,
+    var(--signal-excellent) 100%
+  );
+
+  /* ============================================================
+     Semantic aliases — reference these in components
+     ============================================================ */
+  --bg-app: var(--surface-bg);
+  --surface-card: var(--surface-raised);
+  --surface-card-hover: var(--surface-overlay);
+  --surface-control: var(--surface-elevated);
+
+  --border-card: var(--line);
+  --border-card-hover: var(--line-strong);
+  --border-control: var(--line-strong);
+  --border-focus: var(--nv-green);
+
+  --text-body: var(--text-secondary);
+  --text-heading: var(--text-primary);
+  --text-muted: var(--text-tertiary);
+  --text-label: var(--text-faint);
+
+  --accent: var(--nv-green);
+  --accent-bright: var(--nv-green-bright);
+  --accent-wash: var(--nv-green-wash);
+}

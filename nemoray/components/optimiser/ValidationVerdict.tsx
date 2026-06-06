@@ -24,9 +24,9 @@ export function ValidationVerdict({
           className,
         )}
       >
-        <span className="shimmer absolute inset-0 opacity-40" aria-hidden />
-        <span className="h-2 w-2 shrink-0 rounded-full bg-info/60 animate-pulse-soft" />
-        <span className="eyebrow text-ink-faint">Awaiting Nemotron validation</span>
+        <span className="nm-shimmer absolute inset-0 opacity-40" aria-hidden />
+        <span className="h-2 w-2 shrink-0 rounded-full bg-info/60 nm-pulse" />
+        <span className="nm-eyebrow text-ink-faint">Awaiting Nemotron validation</span>
       </div>
     );
   }
@@ -51,19 +51,19 @@ export function ValidationVerdict({
         />
         <span
           className={cn(
-            "eyebrow",
+            "nm-eyebrow",
             pass ? "text-nv-bright" : "text-critical",
           )}
         >
           {pass ? "Nemotron · Validated" : "Nemotron · Rejected"}
         </span>
         <span className="ml-auto flex items-center gap-1.5">
-          <span className="readout text-[10px] uppercase tracking-[0.12em] text-ink-faint">
+          <span className="nm-readout text-[10px] uppercase tracking-[0.12em] text-ink-faint">
             {validation.source}
           </span>
           <span
             className={cn(
-              "readout px-1.5 py-px text-[10px] uppercase tracking-[0.14em]",
+              "nm-readout px-1.5 py-px text-[10px] uppercase tracking-[0.14em]",
               pass
                 ? "border border-nv/40 text-nv"
                 : "border border-critical/50 text-critical",

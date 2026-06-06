@@ -46,16 +46,16 @@ export function NetworkStatusPanel({ className }: { className?: string }) {
         right={
           <span className="flex items-center gap-1.5">
             <StatusDot status={s.dot} pulse={s.pulse} />
-            <span className="eyebrow text-ink-dim">{s.label}</span>
+            <span className="nm-eyebrow text-ink-dim">{s.label}</span>
           </span>
         }
       />
       <PanelBody className="flex flex-col gap-3 overflow-y-visible p-3">
         {/* Headline — total cell towers monitored */}
         <div className="flex flex-col gap-1">
-          <span className="eyebrow text-ink-faint">Cell Towers</span>
+          <span className="nm-eyebrow text-ink-faint">Cell Towers</span>
           <div className="flex items-baseline gap-2">
-            <span className="readout text-4xl leading-none tracking-tight text-ink text-glow tabular-nums">
+            <span className="nm-readout text-4xl leading-none tracking-tight text-ink tabular-nums">
               {total}
             </span>
             <span className="text-[11px] leading-tight text-ink-faint">
@@ -82,10 +82,10 @@ export function NetworkStatusPanel({ className }: { className?: string }) {
 
         {/* Critical coverage gaps from the live radio map */}
         <div className="flex items-center justify-between border-t border-hairline pt-2.5">
-          <span className="eyebrow text-ink-faint">Critical coverage gaps</span>
+          <span className="nm-eyebrow text-ink-faint">Critical coverage gaps</span>
           <span
             className={cn(
-              "readout text-sm tabular-nums",
+              "nm-readout text-sm tabular-nums",
               criticalGaps > 0 ? "text-critical" : "text-ink-dim",
             )}
           >
@@ -122,8 +122,8 @@ function StatTile({
         TILE_ACCENT[status],
       )}
     >
-      <span className="eyebrow text-ink-faint">{label}</span>
-      <span className="readout text-2xl leading-none tracking-tight tabular-nums">
+      <span className="nm-eyebrow text-ink-faint">{label}</span>
+      <span className="nm-readout text-2xl leading-none tracking-tight tabular-nums">
         {value}
       </span>
     </div>
@@ -134,8 +134,8 @@ function StatTile({
 function OperatorChip({ label, count }: { label: string; count: number }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="eyebrow text-ink-dim">{label}</span>
-      <span className="readout text-sm text-ink tabular-nums">{count}</span>
+      <span className="nm-eyebrow text-ink-dim">{label}</span>
+      <span className="nm-readout text-sm text-ink tabular-nums">{count}</span>
     </div>
   );
 }

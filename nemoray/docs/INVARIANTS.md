@@ -78,8 +78,9 @@ mock generators → `types/coverage.ts`. Don't assume one is dead and delete it 
 ## CONVENTIONS (house style)
 
 - **Compose from `components/primitives/`** — don't hand-roll panels/buttons/readouts.
-- **Use design tokens** (`bg-panel`, `text-nv`, `var(--radius-hud)`) — never hardcode HUD
-  hex/radius in DOM chrome (lint-enforced; see `DESIGN-SYSTEM.md` §6).
+- **Use design tokens / `.nm-*` classes** (`bg-panel`, `text-nv`, `var(--nv-green)`,
+  `.nm-eyebrow`, `.nm-readout`) — never hardcode HUD hex in DOM chrome (lint-enforced;
+  see `DESIGN-SYSTEM.md` §6). Raw token values live in `app/styles/tokens/`.
 - **Merge classes through `lib/cn.ts`** (`cn()`).
 - **Keep the `prefers-reduced-motion` guard** when adding animations.
 - **Conventional Commits**, single human author (no AI co-author trailers).

@@ -46,14 +46,14 @@ function ScenarioSegment({ id }: { id: ScenarioId }) {
         className={cn(
           "relative flex h-7 shrink-0 items-center gap-1.5 border px-2.5 text-[10px] font-semibold uppercase tracking-[0.16em] transition-all",
           active
-            ? "hud-frame border-hairline-strong bg-nv/10 text-nv text-glow"
+            ? "border-hairline-strong bg-nv/10 text-nv"
             : "border-hairline text-ink-dim hover:border-hairline-strong hover:text-ink",
         )}
       >
         <Icon size={11} className={cn(active ? "text-nv" : "opacity-70")} />
         {scenario.label}
         {active && (
-          <span className="absolute inset-x-0 -bottom-px h-[2px] bg-nv shadow-[0_0_8px_var(--color-nv-glow)]" />
+          <span className="absolute inset-x-0 -bottom-px h-[2px] bg-nv" />
         )}
       </button>
     </Tooltip>
@@ -112,25 +112,25 @@ export function ScenarioTabs({ className }: { className?: string }) {
             agent&apos;s response.
           </p>
           <label className="flex flex-col gap-1">
-            <span className="eyebrow">Scenario name</span>
+            <span className="nm-eyebrow">Scenario name</span>
             <input
               type="text"
               placeholder="e.g. Flash Flood — Thames Barrier"
-              className="readout h-8 border border-hairline-strong bg-bg px-2 text-xs text-ink outline-none placeholder:text-ink-faint focus:border-nv"
+              className="nm-readout h-8 border border-hairline-strong bg-bg px-2 text-xs text-ink outline-none placeholder:text-ink-faint focus:border-nv"
             />
           </label>
           <label className="flex flex-col gap-1">
-            <span className="eyebrow">Timeline span (hours)</span>
+            <span className="nm-eyebrow">Timeline span (hours)</span>
             <input
               type="number"
               defaultValue={4}
               min={1}
               max={24}
-              className="readout h-8 w-24 border border-hairline-strong bg-bg px-2 text-xs text-ink outline-none focus:border-nv"
+              className="nm-readout h-8 w-24 border border-hairline-strong bg-bg px-2 text-xs text-ink outline-none focus:border-nv"
             />
           </label>
           <div className="mt-1 flex items-center justify-between border-t border-hairline pt-3">
-            <span className="eyebrow text-ink-faint">Scenario authoring · coming soon</span>
+            <span className="nm-eyebrow text-ink-faint">Scenario authoring · coming soon</span>
             <Button variant="ghost" size="sm" onClick={() => setNewOpen(false)}>
               Close
             </Button>
@@ -154,7 +154,7 @@ export function ScenarioTabs({ className }: { className?: string }) {
       >
         <div className="flex flex-col gap-3">
           <div className="flex items-baseline justify-between">
-            <span className="eyebrow">Scenario</span>
+            <span className="nm-eyebrow">Scenario</span>
             <span className="text-sm font-semibold text-nv">{active.label}</span>
           </div>
           <p className="text-xs leading-relaxed text-ink-dim">{active.description}</p>
@@ -162,8 +162,8 @@ export function ScenarioTabs({ className }: { className?: string }) {
           <div className="grid grid-cols-2 gap-px border border-hairline bg-hairline">
             {summary.map((k) => (
               <div key={k.label} className="flex flex-col gap-0.5 bg-panel-2 px-2.5 py-2">
-                <span className="eyebrow text-ink-faint">{k.label}</span>
-                <span className={cn("readout text-sm", k.critical ? "text-critical" : "text-ink")}>
+                <span className="nm-eyebrow text-ink-faint">{k.label}</span>
+                <span className={cn("nm-readout text-sm", k.critical ? "text-critical" : "text-ink")}>
                   {k.value}
                 </span>
               </div>
@@ -171,7 +171,7 @@ export function ScenarioTabs({ className }: { className?: string }) {
           </div>
 
           <div className="flex items-center justify-between border-t border-hairline pt-3">
-            <span className="readout text-[10px] text-ink-faint">
+            <span className="nm-readout text-[10px] text-ink-faint">
               {active.events.length} events · {deactivatedCount} sites offline
             </span>
             <Button variant="solid" size="sm" onClick={() => setExportOpen(false)}>

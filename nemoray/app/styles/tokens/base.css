@@ -1,0 +1,124 @@
+/* ============================================================
+   NeMo-Ray · Base & utilities
+   The near-black ground, instrument scrollbars, and the modern
+   card / glow / grid utility classes that replace the legacy
+   corner-tick + scanline chrome.
+
+   NOTE: the element box-sizing reset and the html/body sizing
+   blocks from the upstream skill are intentionally omitted —
+   Tailwind preflight and app/layout.tsx own those (the body is
+   `h-screen overflow-hidden bg-bg text-ink`). Body font defaults
+   live in app/globals.css.
+   ============================================================ */
+
+:root {
+  color-scheme: dark;
+}
+
+::selection {
+  background: var(--nv-green-glow);
+  color: #04110a;
+}
+
+/* ---- Instrument scrollbars ---------------------------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: var(--radius-pill);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--nv-green-dim);
+  background-clip: padding-box;
+}
+
+/* ============================================================
+   Utility classes
+   ============================================================ */
+
+/* Modern card surface — soft border, rounded, gentle elevation.
+   The default panel look (replaces .hud-frame). */
+.nm-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* Accent / active variants */
+.nm-glow {
+  box-shadow: var(--glow-accent);
+}
+.nm-glow-strong {
+  box-shadow: var(--glow-accent-strong);
+}
+.nm-text-glow {
+  text-shadow: var(--glow-text);
+}
+
+/* Faint perspective grid background (map wells, hero panels) */
+.nm-grid-bg {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Vignette wash for map / hero surfaces */
+.nm-vignette {
+  background:
+    radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+/* Tabular numeric helper */
+.nm-tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ---- Keyframes ---------------------------------------- */
+@keyframes nm-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+@keyframes nm-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes nm-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes nm-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(220%); }
+}
+
+.nm-pulse { animation: nm-pulse 2s var(--ease-in-out) infinite; }
+.nm-blink { animation: nm-blink 1.1s steps(1) infinite; }
+.nm-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--line) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: nm-shimmer 1.5s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nm-pulse,
+  .nm-blink,
+  .nm-shimmer {
+    animation: none;
+  }
+}

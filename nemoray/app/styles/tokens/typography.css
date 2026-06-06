@@ -1,0 +1,111 @@
+/* ============================================================
+   NeMo-Ray · Typography tokens
+   Manrope (UI/display, standing in for NVIDIA Sans) + JetBrains Mono
+   (telemetry). The "eyebrow" — tracked, uppercased micro-label — is
+   the system's signature. Spacing rhythm mirrors nvidia.com: tight
+   headline leading, comfortable body leading, generous block margins.
+
+   Font *families* are declared here for reference, but the live
+   --font-sans/--font-display/--font-mono values are bound to the
+   next/font CSS variables in app/globals.css (@theme). Fonts are
+   loaded via next/font in app/layout.tsx — NOT via @import.
+   ============================================================ */
+
+:root {
+  /* ---- Families (reference; bound to next/font in globals.css) ---- */
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+
+  /* ---- Weights ----------------------------------------- */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+
+  /* ---- Type scale (px) --------------------------------- */
+  --text-display-xl: 56px;  /* hero KPI numerals             */
+  --text-display-lg: 40px;
+  --text-display-md: 32px;
+  --text-title: 24px;       /* panel / section titles        */
+  --text-lg: 20px;
+  --text-md: 16px;          /* body large                    */
+  --text-base: 14px;        /* body default                  */
+  --text-sm: 13px;
+  --text-xs: 12px;
+  --text-2xs: 11px;
+  --text-3xs: 10px;         /* eyebrows, ticks               */
+
+  /* ---- Line heights · comfortable, NVIDIA-style rhythm -- */
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  /* ---- Letter spacing · NVIDIA-style ------------------- */
+  --tracking-tight: -0.02em;    /* large display headlines      */
+  --tracking-snug: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-eyebrow: 0.12em;   /* tracked micro-label          */
+  --tracking-caps: 0.04em;
+
+  /* ---- Text block rhythm (margins between text) -------- */
+  /* nvidia.com keeps eyebrow→headline tight, headline→body open,
+     and paragraph gaps comfortable. These drive .nm-prose. */
+  --space-eyebrow-head: 12px;   /* kicker label → headline      */
+  --space-head-body: 20px;      /* headline → supporting copy   */
+  --space-para: 16px;           /* paragraph → paragraph        */
+  --space-section: 56px;        /* section → section            */
+  --measure-prose: 62ch;        /* comfortable reading measure  */
+}
+
+/* ---- Reusable text patterns ---------------------------- */
+
+/* The signature tracked micro-label */
+.nm-eyebrow {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  font-size: var(--text-3xs);
+  line-height: 1;
+  color: var(--text-label);
+}
+
+/* Tabular mono readout for any numeric telemetry */
+.nm-readout {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: var(--tracking-snug);
+}
+
+/* ============================================================
+   NVIDIA-style text rhythm. Wrap related copy in .nm-prose and
+   the margins between eyebrow / headline / body resolve from the
+   tokens above — never hand-set margins on text again.
+   ============================================================ */
+.nm-prose { max-width: var(--measure-prose); }
+.nm-prose > * { margin: 0; }
+.nm-prose > * + * { margin-top: var(--space-para); }
+
+.nm-prose .nm-eyebrow + :is(h1, h2, h3, .nm-headline) { margin-top: var(--space-eyebrow-head); }
+.nm-prose :is(h1, h2, h3, .nm-headline) + * { margin-top: var(--space-head-body); }
+
+.nm-headline,
+.nm-prose :is(h1, h2, h3) {
+  font-family: var(--font-display);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-heading);
+  text-wrap: balance;
+}
+.nm-prose p {
+  line-height: var(--leading-normal);
+  color: var(--text-body);
+  text-wrap: pretty;
+}

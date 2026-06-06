@@ -95,7 +95,7 @@ export function AgentComposer({ className }: { className?: string }) {
             {transcribing ? (
               <Loader2 size={14} className="animate-spin" />
             ) : (
-              <Mic size={14} className={cn(recording && "animate-pulse-soft")} />
+              <Mic size={14} className={cn(recording && "nm-pulse")} />
             )}
           </button>
         )}
@@ -128,7 +128,7 @@ export function AgentComposer({ className }: { className?: string }) {
               autoSpeak
                 ? "border-info/60 text-info"
                 : "border-hairline text-ink-faint hover:border-hairline-strong hover:text-ink-dim",
-              speaking && autoSpeak && "animate-pulse-soft",
+              speaking && autoSpeak && "nm-pulse",
             )}
           >
             {autoSpeak ? <Volume2 size={14} /> : <VolumeX size={14} />}
@@ -152,13 +152,13 @@ export function AgentComposer({ className }: { className?: string }) {
           className={cn(
             "h-1 w-1 rounded-full",
             recording
-              ? "animate-pulse-soft bg-critical"
+              ? "nm-pulse bg-critical"
               : streaming || transcribing || speaking
-                ? "animate-pulse-soft bg-info"
+                ? "nm-pulse bg-info"
                 : "bg-ink-faint",
           )}
         />
-        <span className="eyebrow text-[9px] text-ink-faint">
+        <span className="nm-eyebrow text-[9px] text-ink-faint">
           {recording
             ? "Listening · release to send"
             : transcribing

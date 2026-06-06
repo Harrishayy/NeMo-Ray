@@ -1,0 +1,79 @@
+/* ============================================================
+   NeMo-Ray · Spacing, radii, elevation & motion
+   The radii are the heart of the "de-robotising" refresh: the
+   legacy HUD used a hard 2px on everything. This system uses a
+   soft, comfortable scale so panels read as modern, bespoke
+   instrument cards rather than sharp boxes.
+   ============================================================ */
+
+:root {
+  /* ---- Spacing · 4px base ------------------------------ */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* Comfortable component rhythm — NVIDIA-style generous spacing */
+  --pad-card: var(--space-6);     /* roomy inner card padding    */
+  --gap-card: var(--space-4);     /* between stacked cards       */
+  --gap-tight: var(--space-2);
+
+  /* ---- Radii · soft, modern ---------------------------- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;   /* default card / panel                 */
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  /* semantic */
+  --radius-card: var(--radius-md);
+  --radius-control: var(--radius-sm);
+  --radius-chip: var(--radius-xs);   /* tags are rectangular, not pills */
+
+  /* ---- Elevation · conventional soft shadows ----------- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 14px -6px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 40px -18px rgba(0, 0, 0, 0.6);
+
+  /* card = faint inner top-highlight + soft drop */
+  --shadow-card:
+    inset 0 1px 0 rgba(255, 255, 255, 0.02),
+    0 4px 16px -12px rgba(0, 0, 0, 0.55);
+
+  /* accent active = a clean ring, no neon bloom */
+  --glow-accent: 0 0 0 1px var(--line-accent);
+  --glow-accent-strong: 0 0 0 1px var(--nv-green);
+  --glow-text: none;
+
+  /* status indicators = solid dots, a whisper of lift only */
+  --glow-nominal: 0 0 0 3px rgba(92, 174, 60, 0.14);
+  --glow-warning: 0 0 0 3px rgba(224, 165, 42, 0.14);
+  --glow-critical: 0 0 0 3px rgba(224, 82, 77, 0.14);
+  --glow-info: 0 0 0 3px rgba(74, 144, 226, 0.14);
+
+  /* ---- Motion ------------------------------------------ */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+
+  /* ---- Z-index ----------------------------------------- */
+  --z-base: 0;
+  --z-overlay: 10;
+  --z-rail: 20;
+  --z-popover: 40;
+  --z-dialog: 50;
+  --z-toast: 60;
+}

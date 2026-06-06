@@ -58,7 +58,7 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
     <div
       className={cn(
         "flex flex-col gap-3 border bg-panel-2/50 px-3 py-3 transition-colors",
-        accepted && "hud-frame",
+        accepted && "nm-glow",
         selected
           ? "border-nv"
           : "border-hairline hover:border-nv/50",
@@ -73,7 +73,7 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
         <span className="truncate text-sm font-medium text-ink">{proposal.label}</span>
         <span className="ml-auto flex shrink-0 items-center gap-1.5">
           <StatusDot status={meta.dot} pulse={meta.pulse} />
-          <span className={cn("eyebrow", meta.text)}>{meta.label}</span>
+          <span className={cn("nm-eyebrow", meta.text)}>{meta.label}</span>
         </span>
       </div>
 
@@ -87,7 +87,7 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
             </span>
           }
           value={`+${proposal.coverageGainPct.toFixed(1)}%`}
-          valueClassName="text-nv text-glow"
+          valueClassName="text-nv"
         />
         <Readout
           label={
@@ -119,7 +119,7 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
         <div className="flex items-center gap-2">
           <span
             className={cn(
-              "eyebrow flex items-center gap-1.5",
+              "nm-eyebrow flex items-center gap-1.5",
               accepted ? "text-nv" : "text-critical",
             )}
           >
@@ -159,7 +159,7 @@ export function ProposalCard({ proposal }: { proposal: Proposal }) {
             Reject
           </Button>
           {overrideArmed && (
-            <span className="eyebrow ml-auto text-critical">Override armed</span>
+            <span className="nm-eyebrow ml-auto text-critical">Override armed</span>
           )}
         </div>
       )}

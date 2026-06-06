@@ -10,16 +10,16 @@ export function TopBar() {
     <header className="relative z-20 flex h-9 shrink-0 items-center gap-3 border-b border-hairline bg-bg-2/90 px-3">
       {/* brand */}
       <div className="flex items-center gap-2.5">
-        <span className="flex h-5 w-5 items-center justify-center bg-nv text-[12px] font-bold text-black shadow-[0_0_14px_-2px_var(--color-nv-glow)]">
+        <span className="flex h-5 w-5 items-center justify-center bg-nv text-[12px] font-bold text-black">
           ◢
         </span>
         <span className="text-[12px] font-bold uppercase tracking-[0.14em] text-ink">
           {APP.org}
         </span>
         <span className="mx-0.5 h-4 w-px bg-hairline-strong" />
-        <span className="eyebrow text-nv text-glow">{APP.title}</span>
+        <span className="nm-eyebrow text-nv">{APP.title}</span>
         <span className="mx-0.5 hidden h-4 w-px bg-hairline-strong sm:block" />
-        <span className="eyebrow hidden text-ink-faint sm:inline">
+        <span className="nm-eyebrow hidden text-ink-faint sm:inline">
           {APP.network} for {APP.region}
         </span>
       </div>
@@ -29,8 +29,8 @@ export function TopBar() {
         <StatusClock />
         <span className="h-4 w-px bg-hairline-strong" />
         <div className="flex flex-col items-end leading-none">
-          <span className="eyebrow text-ink-faint">OPERATOR</span>
-          <span className="readout text-xs text-ink">{APP.operator}</span>
+          <span className="nm-eyebrow text-ink-faint">OPERATOR</span>
+          <span className="nm-readout text-xs text-ink">{APP.operator}</span>
         </div>
       </div>
     </header>

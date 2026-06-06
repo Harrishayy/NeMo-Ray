@@ -14,8 +14,8 @@ export function CoverageLegend({ className }: { className?: string }) {
       )}
     >
       <div className="mb-1.5 flex items-baseline justify-between gap-6">
-        <span className="eyebrow">Downlink</span>
-        <span className="eyebrow text-ink-faint">Mbps</span>
+        <span className="nm-eyebrow">Downlink</span>
+        <span className="nm-eyebrow text-ink-faint">Mbps</span>
       </div>
 
       <div
@@ -25,14 +25,14 @@ export function CoverageLegend({ className }: { className?: string }) {
 
       {/* tick marks */}
       <div className="mt-1 flex w-40 justify-between">
-        <span className="readout text-[9px] text-ink-faint">0</span>
-        <span className="readout text-[9px] text-ink-faint">75</span>
-        <span className="readout text-[9px] text-ink-faint">150</span>
+        <span className="nm-readout text-[9px] text-ink-faint">0</span>
+        <span className="nm-readout text-[9px] text-ink-faint">75</span>
+        <span className="nm-readout text-[9px] text-ink-faint">150</span>
       </div>
 
       <div className="mt-1 flex w-40 justify-between">
-        <span className="eyebrow text-[9px] text-ink-faint">Low</span>
-        <span className="eyebrow text-[9px] text-ink-faint">High</span>
+        <span className="nm-eyebrow text-[9px] text-ink-faint">Low</span>
+        <span className="nm-eyebrow text-[9px] text-ink-faint">High</span>
       </div>
     </div>
   );

@@ -2,11 +2,13 @@
 
 You're in the HUD's component layer. Keep the look consistent:
 
-- **Compose from `primitives/`** (`Panel`, `Button`, `Readout`, `StatusDot`, …) — don't
-  hand-roll panels/buttons.
-- **Style via tokens + utilities in `app/globals.css`** (`bg-panel`, `text-nv`, `.eyebrow`,
-  `.readout`, `.hud-frame`). **Never hardcode HUD hex or `border-radius`** a token covers —
-  it's lint-enforced for chrome dirs (see `../docs/DESIGN-SYSTEM.md` §6).
+- **Compose from `primitives/`** (`Panel`, `Button`, `Badge`, `Readout`, `StatusDot`, …) —
+  don't hand-roll panels/buttons.
+- **Style via tokens + `.nm-*` classes** — raw token values live in `app/styles/tokens/`
+  and `app/styles/components.css`; the `@theme` bridge in `app/globals.css` keeps Tailwind
+  utilities (`bg-panel`, `text-nv`, `border-hairline`) working. Prefer `.nm-eyebrow`,
+  `.nm-readout`, `.nm-card`, or `var(--nv-green)`. **Never hardcode HUD hex** — it's
+  lint-enforced for chrome dirs (see `../docs/DESIGN-SYSTEM.md` §6).
 - **Merge classes through `../lib/cn.ts`** (`cn()`).
 - Shared state → the Zustand store (`../store/index.ts`) selector hooks, not React context.
 

@@ -55,7 +55,7 @@ export function RailTabs<T extends string>({
               <>
                 <span className="absolute left-0 top-0 h-1.5 w-1.5 border-l border-t border-nv" />
                 <span className="absolute bottom-0 right-0 h-1.5 w-1.5 border-b border-r border-nv" />
-                <span className="absolute inset-x-0 bottom-0 h-px bg-nv shadow-[0_0_8px_var(--color-nv-glow)]" />
+                <span className="absolute inset-x-0 bottom-0 h-px bg-nv" />
                 <span className="absolute inset-0 -z-10 bg-nv/[0.06]" />
               </>
             )}

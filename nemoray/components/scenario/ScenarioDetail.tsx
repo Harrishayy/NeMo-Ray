@@ -54,7 +54,7 @@ export function ScenarioDetail({ className }: { className?: string }) {
       />
       <PanelBody className="flex flex-col gap-4 p-3">
         <div>
-          <div className="text-lg font-semibold uppercase tracking-[0.14em] text-nv text-glow">
+          <div className="text-lg font-semibold uppercase tracking-[0.14em] text-nv">
             {scenario.label}
           </div>
           <p className="mt-1 text-sm leading-relaxed text-ink-dim">{scenario.description}</p>
@@ -62,19 +62,19 @@ export function ScenarioDetail({ className }: { className?: string }) {
 
         <div className="grid grid-cols-2 gap-2">
           <div className="border border-hairline bg-bg/50 p-2">
-            <div className="eyebrow">Sites Offline</div>
-            <div className="readout mt-0.5 text-xl text-ink">
+            <div className="nm-eyebrow">Sites Offline</div>
+            <div className="nm-readout mt-0.5 text-xl text-ink">
               {deactivated.length}
             </div>
           </div>
           <div className="border border-hairline bg-bg/50 p-2">
-            <div className="eyebrow">Logged Events</div>
-            <div className="readout mt-0.5 text-xl text-ink">{scenario.events.length}</div>
+            <div className="nm-eyebrow">Logged Events</div>
+            <div className="nm-readout mt-0.5 text-xl text-ink">{scenario.events.length}</div>
           </div>
         </div>
 
         <div className="flex flex-col gap-1">
-          <div className="eyebrow mb-1">Event Track</div>
+          <div className="nm-eyebrow mb-1">Event Track</div>
           {scenario.events.length === 0 && (
             <div className="border border-hairline bg-bg/40 px-2 py-3 text-center text-xs text-ink-faint">
               No events — nominal operations.
@@ -87,7 +87,7 @@ export function ScenarioDetail({ className }: { className?: string }) {
                 key={ev.id}
                 className="flex items-center gap-2.5 border-l-2 border-hairline-strong bg-surface/40 py-1.5 pl-2.5 pr-2"
               >
-                <span className="readout text-[11px] text-ink-faint">{fmtTime(ev.tMs)}</span>
+                <span className="nm-readout text-[11px] text-ink-faint">{fmtTime(ev.tMs)}</span>
                 <Icon size={13} className="shrink-0 text-ink-dim" />
                 <span className="flex-1 truncate text-xs text-ink">{ev.label}</span>
                 <StatusDot status={KIND_STATUS[ev.kind]} />

@@ -59,7 +59,7 @@ export function MapPlaceholder(props: MapSurfaceProps) {
   return (
     <div className="relative h-full w-full overflow-hidden bg-bg">
       {/* ── perspective stage (oblique London) ── */}
-      <div className="absolute inset-0 bg-bg bg-grid scanlines">
+      <div className="absolute inset-0 bg-bg nm-grid-bg">
         {/* horizon vignette to sell the oblique depth */}
         <div
           className="pointer-events-none absolute inset-0"
@@ -143,10 +143,10 @@ export function MapPlaceholder(props: MapSurfaceProps) {
       {/* ── computing sweep overlay ── */}
       {coverageStatus === "computing" && (
         <div className="pointer-events-none absolute inset-0 z-20">
-          <div className="absolute inset-0 shimmer opacity-40" />
+          <div className="absolute inset-0 nm-shimmer opacity-40" />
           <div className="absolute left-1/2 top-3 -translate-x-1/2 border border-warning/40 bg-panel/80 px-2.5 py-1 backdrop-blur-sm">
-            <span className="eyebrow flex items-center gap-1.5 text-warning">
-              <span className="inline-block h-1.5 w-1.5 animate-pulse-soft rounded-full bg-warning shadow-[0_0_8px_var(--color-warning)]" />
+            <span className="nm-eyebrow flex items-center gap-1.5 text-warning">
+              <span className="inline-block h-1.5 w-1.5 nm-pulse rounded-full bg-warning shadow-[0_0_8px_var(--color-warning)]" />
               Recomputing Coverage
             </span>
           </div>
@@ -158,8 +158,8 @@ export function MapPlaceholder(props: MapSurfaceProps) {
 
       {/* ── intentional placeholder ribbon ── */}
       <div className="pointer-events-none absolute bottom-3 right-3 z-20 border border-hairline bg-panel/80 px-2 py-1 backdrop-blur-sm">
-        <span className="eyebrow flex items-center gap-1.5 text-ink-faint">
-          <span className="inline-block h-1.5 w-1.5 animate-pulse-soft rounded-full bg-nv shadow-[0_0_8px_var(--color-nv-glow)]" />
+        <span className="nm-eyebrow flex items-center gap-1.5 text-ink-faint">
+          <span className="inline-block h-1.5 w-1.5 nm-pulse rounded-full bg-nv" />
           Placeholder · Awaiting RT Render
         </span>
       </div>
@@ -289,7 +289,7 @@ function DeadZoneLayer({
         return (
           <div
             key={z.id}
-            className="absolute animate-pulse-soft"
+            className="absolute nm-pulse"
             style={{
               left: `${z.center.x * 100}%`,
               top: `${z.center.y * 100}%`,
@@ -382,7 +382,7 @@ function TowerNode({
       {/* selected pulsing ring */}
       {selected && (
         <div
-          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse-soft rounded-full"
+          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 nm-pulse rounded-full"
           style={{
             width: "30px",
             height: "30px",
@@ -442,7 +442,7 @@ function TowerNode({
             )}
           >
             <span
-              className="readout text-[9px]"
+              className="nm-readout text-[9px]"
               style={{ color: active ? "var(--color-nv)" : markerColor }}
             >
               {site.id}
@@ -470,7 +470,7 @@ function ProposalGhost({ x, y }: { x: number; y: number }) {
       }}
     >
       <div
-        className="animate-pulse-soft"
+        className="nm-pulse"
         style={{
           width: "12px",
           height: "12px",
@@ -505,7 +505,7 @@ function Compass() {
           x="22"
           y="13"
           textAnchor="middle"
-          className="readout"
+          className="nm-readout"
           style={{ fontSize: "7px", fill: "var(--color-ink-dim)" }}
         >
           N

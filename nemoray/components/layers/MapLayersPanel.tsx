@@ -18,7 +18,7 @@ export function MapLayersPanel({ className }: { className?: string }) {
       <PanelHeader
         label="Map Layers"
         right={
-          <span className="readout text-[10px] tabular-nums text-ink-faint">
+          <span className="nm-readout text-[10px] tabular-nums text-ink-faint">
             {active}/{LAYER_META.length}
           </span>
         }

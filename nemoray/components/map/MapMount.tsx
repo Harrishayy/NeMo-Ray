@@ -13,11 +13,11 @@ import { MapCameraControls } from "./MapCameraControls";
  */
 function MapSkeleton() {
   return (
-    <div className="relative flex h-full w-full items-center justify-center bg-bg bg-grid">
+    <div className="relative flex h-full w-full items-center justify-center bg-bg nm-grid-bg">
       <div className="flex flex-col items-center gap-3">
-        <span className="eyebrow text-ink-dim">Initialising Coverage Twin</span>
+        <span className="nm-eyebrow text-ink-dim">Initialising Coverage Twin</span>
         <div className="h-[2px] w-40 overflow-hidden bg-panel">
-          <div className="shimmer h-full w-full" />
+          <div className="nm-shimmer h-full w-full" />
         </div>
       </div>
     </div>

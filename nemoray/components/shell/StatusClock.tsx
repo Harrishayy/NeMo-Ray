@@ -28,8 +28,8 @@ export function StatusClock() {
 
   return (
     <div className="flex items-center gap-2.5">
-      <span className="readout text-sm text-ink tabular-nums">{time}</span>
-      <span className="eyebrow text-ink-faint">{date} · BST</span>
+      <span className="nm-readout text-sm text-ink tabular-nums">{time}</span>
+      <span className="nm-eyebrow text-ink-faint">{date} · BST</span>
     </div>
   );
 }

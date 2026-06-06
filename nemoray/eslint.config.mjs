@@ -37,7 +37,8 @@ const eslintConfig = defineConfig([
     },
   },
   // Design-token guard: the DOM HUD "chrome" must use design tokens, never raw
-  // brand hex. Tokens live once in app/globals.css @theme (see docs/DESIGN-SYSTEM.md);
+  // brand hex. Raw token values live in app/styles/tokens/ and are bridged into Tailwind
+  // utilities via the @theme block in app/globals.css (see docs/DESIGN-SYSTEM.md);
   // hardcoding hex is how the look silently drifts. NOTE: this deliberately does NOT
   // cover components/cesium/** or the deck/map GL layers — those use raw hex for WebGL
   // materials and are a separately-authored integration (see the block above).
@@ -58,7 +59,7 @@ const eslintConfig = defineConfig([
         {
           selector: "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
           message:
-            "Don't hardcode HUD hex colours in chrome components — use a design token (e.g. text-nv, bg-panel, border-hairline, or var(--color-nv)). See docs/DESIGN-SYSTEM.md.",
+            "Don't hardcode HUD hex colours in chrome components — use a design token (e.g. text-nv, bg-panel, border-hairline, var(--nv-green), var(--surface-raised)) or a .nm-* class. See docs/DESIGN-SYSTEM.md.",
         },
         {
           selector: "TemplateElement[value.cooked=/#[0-9a-fA-F]{3,8}\\b/]",

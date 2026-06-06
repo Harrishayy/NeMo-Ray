@@ -47,7 +47,7 @@ export function ToolCard({ call }: { call: ToolCall }) {
       className={cn(
         "relative flex min-w-0 flex-col gap-1.5 border bg-panel-2/70 px-2.5 py-2",
         status === "error" ? "border-critical/40" : "border-hairline",
-        active && "hud-frame",
+        active && "nm-glow",
         status === "running" && "border-info/40",
         status === "success" && "border-nv/40",
       )}
@@ -59,7 +59,7 @@ export function ToolCard({ call }: { call: ToolCall }) {
           className={cn(
             "shrink-0",
             status === "queued" && "text-ink-faint",
-            status === "running" && "animate-pulse-soft text-info",
+            status === "running" && "nm-pulse text-info",
             status === "success" && "text-nv",
             status === "error" && "text-critical",
           )}
@@ -69,9 +69,9 @@ export function ToolCard({ call }: { call: ToolCall }) {
         </span>
         <span
           className={cn(
-            "readout ml-auto flex shrink-0 items-center gap-0.5 text-[9px] uppercase tracking-[0.12em]",
+            "nm-readout ml-auto flex shrink-0 items-center gap-0.5 text-[9px] uppercase tracking-[0.12em]",
             STATUS_COLOR[status],
-            status === "running" && "animate-pulse-soft",
+            status === "running" && "nm-pulse",
           )}
         >
           {status === "success" && <Check size={10} />}
@@ -80,10 +80,10 @@ export function ToolCard({ call }: { call: ToolCall }) {
         </span>
       </div>
 
-      {/* progress / shimmer / result */}
+      {/* progress bar / result */}
       {status === "queued" && (
         <div className="h-[3px] w-full overflow-hidden bg-bg">
-          <div className="shimmer h-full w-full" />
+          <div className="nm-shimmer h-full w-full" />
         </div>
       )}
 
