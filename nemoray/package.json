@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "cpx \"node_modules/cesium/Build/Cesium/{Assets,Widgets,Workers,ThirdParty}/**\" public/cesium",
+    "prebuild": "cpx \"node_modules/cesium/Build/Cesium/{Assets,Widgets,Workers,ThirdParty}/**\" public/cesium",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -15,11 +17,14 @@
     "@deck.gl/layers": "^9.3.3",
     "@deck.gl/mapbox": "^9.3.3",
     "@deck.gl/react": "^9.3.3",
+    "cesium": "^1.142.0",
+    "cpx2": "^9.0.0",
     "maplibre-gl": "4",
     "next": "16.2.7",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "react-map-gl": "8"
+    "react-map-gl": "8",
+    "resium": "^1.23.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8",
