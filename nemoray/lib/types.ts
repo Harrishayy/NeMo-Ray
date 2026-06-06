@@ -95,34 +95,6 @@ export interface RadioMap {
 
 export type CoverageStatus = "idle" | "computing" | "ready" | "error";
 
-// ── KPIs ────────────────────────────────────────────────────────────────────
-export type KpiState = "nominal" | "warning" | "critical";
-export type KpiId =
-  | "subscribers"
-  | "activeSites"
-  | "availability"
-  | "throughput"
-  | "congestedCells"
-  | "criticalAlerts";
-
-export interface KPI {
-  id: KpiId;
-  label: string;
-  value: number;
-  /** e.g. "/ 321" rendered after the value. */
-  suffix?: string;
-  unit?: string;
-  /** Percentage change vs. baseline. */
-  delta?: number;
-  deltaDirection?: "up" | "down" | "flat";
-  /** Whether an upward delta is good (throughput) or bad (alerts). */
-  invertDelta?: boolean;
-  series: number[];
-  state: KpiState;
-  /** Number formatting hint. */
-  format?: "int" | "decimal1" | "percent1" | "compact";
-}
-
 // ── scenarios + timeline ────────────────────────────────────────────────────
 export type ScenarioId =
   | "live"
@@ -269,9 +241,21 @@ export interface MapSurfaceProps {
   layers: Record<LayerId, LayerState>;
   coverageStatus: CoverageStatus;
   viewState?: MapViewState;
+  /** One-shot camera intent (nonce-deduped) dispatched from HUD chrome. */
+  cameraCommand?: CameraCommand | null;
   onSelectSite(id: SiteId | null): void;
   onHoverSite(id: SiteId | null): void;
   onViewStateChange?(v: MapViewState): void;
+}
+
+// ── camera command bus ──────────────────────────────────────────────────────
+/** Camera intents a surface can honour. Dispatched via the store's nonce bus. */
+export type CameraCommandType = "zoomIn" | "zoomOut" | "reset" | "tilt2d" | "tilt3d";
+
+/** A one-shot camera intent. `nonce` makes repeats of the same type distinct. */
+export interface CameraCommand {
+  type: CameraCommandType;
+  nonce: number;
 }
 
 // ── workspaces ──────────────────────────────────────────────────────────────

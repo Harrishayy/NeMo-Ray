@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NeMo-Ray · AI-RAN Mission Control",
+  title: "NeMo-Ray - ESN",
   description:
     "GPU digital twin of the UK Emergency Services Network — Sionna RT coverage, cuOpt optimisation, and a Nemotron agent, in one mission-control console.",
 };

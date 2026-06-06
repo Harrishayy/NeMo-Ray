@@ -24,7 +24,10 @@ export default function PhotorealisticTiles() {
 
     return () => {
       cancelled = true;
-      if (tileset) {
+      // Guard against teardown after the viewer is destroyed (HMR / unmount
+      // race) — `viewer.scene` is undefined post-destroy. Matches the
+      // isDestroyed() guard in CesiumPostProcess.
+      if (tileset && !viewer.isDestroyed()) {
         viewer.scene.primitives.remove(tileset);
       }
     };

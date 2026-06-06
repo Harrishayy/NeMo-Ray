@@ -66,9 +66,23 @@ export function ScenarioTabs({ className }: { className?: string }) {
   const [exportOpen, setExportOpen] = useState(false);
 
   const activeScenarioId = useNemoStore((s) => s.activeScenarioId);
-  const kpis = useNemoStore((s) => s.kpis);
+  const sites = useNemoStore((s) => s.sites);
+  const radioMap = useNemoStore((s) => s.radioMap);
   const deactivatedCount = useNemoStore((s) => s.deactivatedSiteIds.length);
   const active = MOCK_SCENARIOS[activeScenarioId];
+
+  // Real fleet figures for the report summary — no synthetic KPIs.
+  const onAir = sites.filter((s) => s.status === "active").length;
+  const summary = [
+    { label: "Cell towers", value: String(sites.length), critical: false },
+    { label: "On air", value: String(onAir), critical: false },
+    { label: "Offline", value: String(sites.length - onAir), critical: deactivatedCount > 0 },
+    {
+      label: "Critical gaps",
+      value: String(radioMap?.deadZones.filter((d) => d.severity === "critical").length ?? 0),
+      critical: (radioMap?.deadZones.filter((d) => d.severity === "critical").length ?? 0) > 0,
+    },
+  ];
 
   return (
     <div className={cn("flex items-center gap-1.5", className)}>
@@ -146,21 +160,11 @@ export function ScenarioTabs({ className }: { className?: string }) {
           <p className="text-xs leading-relaxed text-ink-dim">{active.description}</p>
 
           <div className="grid grid-cols-2 gap-px border border-hairline bg-hairline">
-            {kpis.slice(0, 4).map((k) => (
-              <div key={k.id} className="flex flex-col gap-0.5 bg-panel-2 px-2.5 py-2">
+            {summary.map((k) => (
+              <div key={k.label} className="flex flex-col gap-0.5 bg-panel-2 px-2.5 py-2">
                 <span className="eyebrow text-ink-faint">{k.label}</span>
-                <span
-                  className={cn(
-                    "readout text-sm",
-                    k.state === "critical"
-                      ? "text-critical"
-                      : k.state === "warning"
-                        ? "text-warning"
-                        : "text-ink",
-                  )}
-                >
-                  {k.format === "percent1" ? `${k.value.toFixed(1)}%` : Math.round(k.value)}
-                  {k.suffix ? <span className="text-ink-faint"> {k.suffix}</span> : null}
+                <span className={cn("readout text-sm", k.critical ? "text-critical" : "text-ink")}>
+                  {k.value}
                 </span>
               </div>
             ))}

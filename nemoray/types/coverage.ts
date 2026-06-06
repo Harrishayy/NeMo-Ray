@@ -1,3 +1,13 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Raw 3D-layer + mock-data shapes for the map (CoveragePoint, MastSite, DeadZone,
+// and this file's own Proposal/RadioMap). Imported by the Cesium layers
+// (MastBeams, SignalArcs, CoverageVolume), the deck/2D map layers, and lib/data/mock*.
+//
+// This is NOT the store↔map-seam contract. That is `lib/types.ts` (MapSurfaceProps,
+// Site, RadioMap, LayerState). Both files define `Proposal` and `RadioMap` with
+// DIFFERENT shapes — that's intentional; pick by context (see docs/INVARIANTS.md
+// "Two parallel type worlds"). Don't assume one is dead and delete it — grep first.
+// ─────────────────────────────────────────────────────────────────────────────
 import type { Feature, Polygon, BBox } from 'geojson';
 
 export type CoveragePoint = {

@@ -6,6 +6,7 @@ import { useMemo, type ComponentType } from "react";
 import { cn } from "@/lib/cn";
 import { useNemoStore } from "@/store";
 import type { MapSurfaceProps } from "@/lib/types";
+import { MapCameraControls } from "./MapCameraControls";
 
 /**
  * Loading skeleton shown while the (client-only) map implementation hydrates.
@@ -74,8 +75,10 @@ export function MapMount({ className }: { className?: string }) {
   const proposals = useNemoStore((s) => s.proposals);
   const layers = useNemoStore((s) => s.layers);
   const coverageStatus = useNemoStore((s) => s.coverageStatus);
+  const cameraCommand = useNemoStore((s) => s.cameraCommand);
   const selectSite = useNemoStore((s) => s.selectSite);
   const hoverSite = useNemoStore((s) => s.hoverSite);
+  const requestCamera = useNemoStore((s) => s.requestCamera);
 
   const surfaceProps = useMemo<MapSurfaceProps>(
     () => ({
@@ -87,6 +90,7 @@ export function MapMount({ className }: { className?: string }) {
       proposals,
       layers,
       coverageStatus,
+      cameraCommand,
       onSelectSite: selectSite,
       onHoverSite: hoverSite,
     }),
@@ -99,6 +103,7 @@ export function MapMount({ className }: { className?: string }) {
       proposals,
       layers,
       coverageStatus,
+      cameraCommand,
       selectSite,
       hoverSite,
     ],
@@ -107,6 +112,7 @@ export function MapMount({ className }: { className?: string }) {
   return (
     <div className={cn("relative h-full w-full", className)}>
       <MapSurface {...surfaceProps} />
+      {MAP_IMPL === "cesium" && <MapCameraControls onCommand={requestCamera} />}
     </div>
   );
 }

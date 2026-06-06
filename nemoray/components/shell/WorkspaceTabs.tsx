@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, Bot, Radio, Layers, Target } from "lucide-react";
+import { Activity, Radio, Layers, Target } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { Workspace } from "@/lib/types";
@@ -18,7 +18,6 @@ const TABS: Tab[] = [
   { id: "mission", href: "/mission", label: "Mission Control", icon: Activity },
   { id: "coverage", href: "/coverage", label: "Coverage Twin", icon: Layers },
   { id: "optimiser", href: "/optimiser", label: "cuOpt Optimiser", icon: Target },
-  { id: "agent", href: "/agent", label: "AI Agent", icon: Bot },
   { id: "scenarios", href: "/scenarios", label: "Scenarios", icon: Radio },
 ];
 

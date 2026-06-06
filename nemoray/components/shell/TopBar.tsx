@@ -1,6 +1,5 @@
 import { CloudDrizzle } from "lucide-react";
 import { APP } from "@/lib/config";
-import { StatusDot } from "@/components/primitives";
 import { StatusClock } from "./StatusClock";
 
 /** The global mission-control top bar. */
@@ -17,12 +16,6 @@ export function TopBar() {
         </span>
         <span className="mx-1 h-4 w-px bg-hairline-strong" />
         <span className="eyebrow text-nv text-glow">{APP.title}</span>
-      </div>
-
-      {/* operational status */}
-      <div className="ml-1 flex items-center gap-2 border border-hairline px-2 py-1">
-        <StatusDot status="nominal" pulse />
-        <span className="eyebrow text-ink">OPERATIONAL</span>
       </div>
 
       {/* center title */}
