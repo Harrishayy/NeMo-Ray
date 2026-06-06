@@ -1,6 +1,6 @@
 import * as Cesium from 'cesium';
 
-export const LONDON_POSITION = Cesium.Cartesian3.fromDegrees(-0.1278, 51.5074, 200);
+export const LONDON_POSITION = Cesium.Cartesian3.fromDegrees(-0.1278, 51.5074, 300);
 
 export const LONDON_HEADING = Cesium.Math.toRadians(-20);
 
