@@ -31,9 +31,10 @@ Don't "fix" a lint/warning by flipping it on. (The reason is also commented inli
 ### 2. The map seam — only `MapMount.tsx` reads the store
 **Why:** `components/map/MapMount.tsx` is the **single** component that touches the Zustand
 store; it assembles `MapSurfaceProps` (defined in `lib/types.ts`) and passes **props only**
-to a swappable surface chosen by `NEXT_PUBLIC_MAP_IMPL` (`placeholder` | `cesium` | `deck`).
-A surface implementation that imports the store directly breaks the placeholder↔cesium↔deck
-swap. See `components/map/README.md` for the contract.
+to a swappable surface chosen by `NEXT_PUBLIC_MAP_IMPL` (`placeholder` | `cesium`).
+A surface implementation that imports the store directly breaks the placeholder↔cesium swap.
+See `components/map/README.md` for the contract. (A third `deck.gl`/MapLibre surface was
+retired — superseded by Cesium — so the seam is now placeholder|cesium only.)
 
 ### 3. Cesium asset copy — `pnpm predev` / `prebuild` → `public/cesium/`
 **Why:** `public/cesium/` is gitignored; the `predev`/`prebuild` scripts `cpx`-copy Cesium's
@@ -66,9 +67,9 @@ There are **two** type modules, and both define a `Proposal` and a `RadioMap` wi
   `MapMount` and the store speak.
 - **`types/coverage.ts`** — the **raw 3D-layer + mock-data shapes**: `CoveragePoint`,
   `MastSite`, `DeadZone`, plus its own `Proposal`/`RadioMap`. Imported by the Cesium layers
-  (`MastBeams`, `SignalArcs`, `CoverageVolume`), the deck/2D map layers, and `lib/data/mock*`.
+  (`MastBeams`, `SignalArcs`, `CoverageVolume`) and `lib/data/mock*`.
 
-**Pick by context:** store/seam work → `lib/types.ts`; raw Cesium/deck layer geometry &
+**Pick by context:** store/seam work → `lib/types.ts`; raw Cesium layer geometry &
 mock generators → `types/coverage.ts`. Don't assume one is dead and delete it — grep first.
 (CONVENTION: a future consolidation is welcome, but it's a deliberate refactor, not a cleanup.)
 

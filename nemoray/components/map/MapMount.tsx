@@ -25,35 +25,17 @@ function MapSkeleton() {
 }
 
 /**
- * Resolve the active map implementation. Defaults to the bundled placeholder.
- * `NEXT_PUBLIC_MAP_IMPL=deck` opts into the collaborator's `DeckScene` (which
- * may not exist yet) and gracefully falls back to the placeholder if missing.
- *
- * The `deck` import path is built from a variable so the bundler never tries to
- * statically resolve a module that hasn't been written.
+ * Resolve the active map implementation. Defaults to the bundled placeholder;
+ * `NEXT_PUBLIC_MAP_IMPL=cesium` opts into the CesiumJS 3D scene.
  */
 const MAP_IMPL = process.env.NEXT_PUBLIC_MAP_IMPL ?? "placeholder";
 
-// Built from a variable so neither TypeScript nor the bundler tries to
-// statically resolve `./DeckScene` before the collaborator has written it.
-const DECK_MODULE = "./DeckScene";
-
 const MapSurface: ComponentType<MapSurfaceProps> = dynamic(
   async () => {
-    // CesiumJS 3D scene (Google Photorealistic Tiles) — the collaborator's map.
+    // CesiumJS 3D scene (Google Photorealistic Tiles) — the live demo map.
     if (MAP_IMPL === "cesium") {
       const mod = await import("./CesiumScene");
       return { default: mod.CesiumScene };
-    }
-    if (MAP_IMPL === "deck") {
-      try {
-        const mod = (await import(
-          /* webpackIgnore: true */ DECK_MODULE
-        )) as { DeckScene: ComponentType<MapSurfaceProps> };
-        return { default: mod.DeckScene };
-      } catch {
-        // DeckScene not built yet — fall through to placeholder.
-      }
     }
     const mod = await import("./MapPlaceholder");
     return { default: mod.MapPlaceholder };

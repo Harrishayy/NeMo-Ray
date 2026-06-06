@@ -5,11 +5,10 @@ the full contract, and `../../docs/INVARIANTS.md` for the locks. Key rules:
 
 - **Only `MapMount.tsx` reads the Zustand store.** It assembles `MapSurfaceProps`
   (`../../lib/types.ts`) and passes **props only** to the chosen surface. Surface impls
-  (`CesiumScene`, `DeckScene`, `MapPlaceholder`) must **never import the store** — doing so
+  (`CesiumScene`, `MapPlaceholder`) must **never import the store** — doing so
   breaks the swap. 🔒
 - The active surface is chosen by **`NEXT_PUBLIC_MAP_IMPL`** (`placeholder` default |
-  `cesium` | `deck`). The live demo stack is **CesiumJS + Google Photorealistic 3D Tiles**.
-  `maplibre`/`deck` packages being installed does **not** mean they're active.
+  `cesium`). The live demo stack is **CesiumJS + Google Photorealistic 3D Tiles**.
 - **Do not re-enable React StrictMode** (`next.config.ts`) — it kills Cesium's WebGL context. 🔒
 - **Blank map?** Almost always missing `public/cesium/` assets → run `pnpm predev`/`prebuild`.
   It's an env step, not a code bug. 🔒

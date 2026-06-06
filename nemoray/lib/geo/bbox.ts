@@ -8,7 +8,7 @@ export const LONDON_CENTER: LngLat = [
   (LONDON_BBOX[1] + LONDON_BBOX[3]) / 2,
 ];
 
-/** Default camera the real deck.gl scene should adopt. */
+/** Default camera the real Cesium scene should adopt. */
 export const DEFAULT_VIEW = {
   longitude: LONDON_CENTER[0],
   latitude: LONDON_CENTER[1],

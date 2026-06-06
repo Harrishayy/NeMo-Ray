@@ -17,7 +17,7 @@ import { MapOverlayHUD } from "./MapOverlayHUD";
 /**
  * The interactive placeholder map surface. Implements {@link MapSurfaceProps}
  * exactly — reads NOTHING from the store directly (props only) so it stays a
- * clean, swappable seam with the collaborator's deck.gl `DeckScene`.
+ * clean, swappable seam with the CesiumJS `CesiumScene`.
  *
  * Renders an oblique near-black "London stage": a draped radio-map heatmap,
  * tower nodes with vertical beam shafts, backhaul arcs, and pulsing red dead

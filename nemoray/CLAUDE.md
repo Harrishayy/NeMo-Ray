@@ -11,9 +11,9 @@ of UK ESN coverage. Dense, dark, instrument-like.
 - **State: Zustand** (`store/index.ts`) with selector hooks — _not_ React context, _not_ Redux.
   Persisted panel state hydrates in `app/providers.tsx`.
 - **Map: CesiumJS** (Google Photorealistic 3D Tiles) behind a swappable seam — chosen by
-  `NEXT_PUBLIC_MAP_IMPL` (`placeholder` default | `cesium` | `deck`). `maplibre-gl`,
-  `react-map-gl` and `deck.gl` are also in `package.json` as _alternate_ surfaces —
-  **their presence ≠ the active impl.** Check the env var / `components/map/MapMount.tsx`.
+  `NEXT_PUBLIC_MAP_IMPL` (`placeholder` default | `cesium`). The `placeholder` is a
+  dependency-free canvas mock for dev/CI; `cesium` is the live surface. Check the env var /
+  `components/map/MapMount.tsx`.
 - Package manager: **pnpm** (workspace + lockfile local to this directory) — use `pnpm add`.
 
 ## Commands
