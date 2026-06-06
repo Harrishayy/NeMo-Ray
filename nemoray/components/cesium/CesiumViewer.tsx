@@ -1,7 +1,7 @@
 'use client';
 
 if (typeof window !== 'undefined') {
-  (window as any).CESIUM_BASE_URL = '/cesium';
+  (window as Window & { CESIUM_BASE_URL?: string }).CESIUM_BASE_URL = '/cesium';
 }
 
 import * as Cesium from 'cesium';
@@ -31,6 +31,9 @@ export default function CesiumViewer({ children, className, style, onReady }: Ce
     if (didInit.current) return;
     didInit.current = true;
 
+    let cancelled = false;
+    let viewer: Cesium.Viewer | null = null;
+
     const sharedOptions = {
       animation: false,
       baseLayerPicker: false,
@@ -47,43 +50,63 @@ export default function CesiumViewer({ children, className, style, onReady }: Ce
       orderIndependentTranslucency: false,
     } as const;
 
-    let viewer: Cesium.Viewer | null = null;
-    let initError: unknown = null;
+    const clearContainer = () => {
+      const el = document.getElementById('cesiumContainer');
+      if (el) el.innerHTML = '';
+    };
 
-    // Try WebGL2 first, then fall back to WebGL1 (better Linux/driver compatibility).
-    for (const requestWebgl1 of [false, true]) {
-      try {
-        viewer = new Cesium.Viewer('cesiumContainer', {
-          ...sharedOptions,
-          contextOptions: {
-            requestWebgl1,
-            webgl: { failIfMajorPerformanceCaveat: false },
-          },
-        });
-        initError = null;
-        break;
-      } catch (err) {
-        initError = err;
-        // Clean up any partial state before the next attempt.
-        const el = document.getElementById('cesiumContainer');
-        if (el) el.innerHTML = '';
+    // Async init with retry: after destroy(), the GPU may need a frame or two to
+    // release the previous context before a new canvas.getContext() succeeds.
+    (async () => {
+      let lastError: unknown = null;
+
+      outer: for (const requestWebgl1 of [false, true]) {
+        for (let attempt = 0; attempt < 3; attempt++) {
+          if (cancelled) return;
+
+          if (attempt > 0) {
+            clearContainer();
+            // Wait for the GPU to release the previous WebGL context.
+            await new Promise<void>((r) => setTimeout(r, 200 * attempt));
+          }
+
+          if (cancelled) return;
+
+          try {
+            viewer = new Cesium.Viewer('cesiumContainer', {
+              ...sharedOptions,
+              contextOptions: {
+                requestWebgl1,
+                webgl: { failIfMajorPerformanceCaveat: false },
+              },
+            });
+            lastError = null;
+            break outer;
+          } catch (err) {
+            lastError = err;
+            clearContainer();
+          }
+        }
       }
-    }
 
-    if (initError || !viewer) {
-      const msg = initError instanceof Error ? initError.message : String(initError);
-      console.error('Cesium init failed (WebGL2 + WebGL1):', initError);
-      setWebglError(msg);
-      didInit.current = false;
-    } else {
-      applyNightScene(viewer);
-      viewer.camera.flyTo(INITIAL_CAMERA);
-      cesiumViewerRef.current = viewer;
-      setReadyViewer(viewer);
-      onReady?.(viewer);
-    }
+      if (cancelled) return;
+
+      if (lastError || !viewer) {
+        const msg = lastError instanceof Error ? lastError.message : String(lastError);
+        console.error('Cesium init failed (WebGL2 + WebGL1, 3 attempts each):', lastError);
+        setWebglError(msg);
+        didInit.current = false;
+      } else {
+        applyNightScene(viewer);
+        viewer.camera.flyTo(INITIAL_CAMERA);
+        cesiumViewerRef.current = viewer;
+        setReadyViewer(viewer);
+        onReady?.(viewer);
+      }
+    })();
 
     return () => {
+      cancelled = true;
       if (viewer && !viewer.isDestroyed()) {
         viewer.destroy();
       }
