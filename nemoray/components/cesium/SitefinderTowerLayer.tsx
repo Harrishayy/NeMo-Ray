@@ -6,6 +6,7 @@ import { useCesiumViewer } from './CesiumContext';
 import type { SitefinderTowerSite, TransmissionType } from '@/types/sitefinder';
 import {
   getSitePrimaryColor,
+  getSiteModelType,
   getSiteVisualHeight,
 } from '@/lib/cesium/sitefinderVisuals';
 
@@ -37,33 +38,49 @@ const ACTIVE_OUTLINE = Cesium.Color.fromCssColorString('#ff9c33').withAlpha(0.96
 const RADIO_TOWER_URI = '/models/radio_tower/scene.gltf';
 const CELL_TOWER_URI = '/models/cell_tower/scene.gltf';
 
-// Native world-space Y extents after applying all root node transforms.
-// (Sketchfab FBX export, 1 GLTF unit ≈ 1 cm; Cesium treats them as metres.)
-// scale = targetMetres / nativeYRange; groundOffset = abs(nativeYMin) * scale
-const RADIO_TOWER_NATIVE_Y_RANGE = 12730; // Y: -5089..7641 (geometry straddles origin)
-const RADIO_TOWER_NATIVE_Y_MIN = -5089;   // bottom is this many units below the entity origin
-const CELL_TOWER_NATIVE_Y_RANGE = 100.4;  // Y: 0..100 after translation fix in scene.gltf
-const CELL_TOWER_NATIVE_Y_MIN = 0;        // bottom sits at entity origin after GLTF fix
+// Native world-space Y extents (1 GLTF unit = 1 Cesium metre unless noted).
+// scale = targetMetres / yRange; groundOffset = abs(yMin) * scale
+const RADIO_TOWER_NATIVE_Y_RANGE = 12730; // Sketchfab FBX, 1 unit ≈ 1 cm. Y: -5089..7641
+const RADIO_TOWER_NATIVE_Y_MIN = -5089;
+const CELL_TOWER_NATIVE_Y_RANGE = 100.4;  // Y: 0..100.4 m after translation fix
+const CELL_TOWER_NATIVE_Y_MIN = 0;
 
-function isRadioTowerSite(site: SitefinderTowerSite): boolean {
-  return site.transmissionTypes.includes('TETRA') || site.transmissionTypes.includes('GSM-R');
+// Three rooftop antenna variants (antenna_a/b/c). Single-node, no transforms —
+// native Y extents taken directly from GLTF accessors (units = metres).
+const ROOFTOP_MODELS = [
+  { uri: '/models/antenna_a/scene.gltf', yRange: 7.090, yMin: -3.545 },
+  { uri: '/models/antenna_b/scene.gltf', yRange: 4.744, yMin: -3.258 },
+  { uri: '/models/antenna_c/scene.gltf', yRange: 8.429, yMin: -3.545 },
+] as const;
+
+function rooftopModelForSite(site: SitefinderTowerSite): typeof ROOFTOP_MODELS[number] {
+  let h = 0;
+  for (let i = 0; i < site.id.length; i++) {
+    h = (h * 31 + site.id.charCodeAt(i)) >>> 0;
+  }
+  return ROOFTOP_MODELS[h % ROOFTOP_MODELS.length];
 }
 
 function modelUriForSite(site: SitefinderTowerSite): string {
-  return isRadioTowerSite(site) ? RADIO_TOWER_URI : CELL_TOWER_URI;
+  const t = getSiteModelType(site);
+  if (t === 'radio') return RADIO_TOWER_URI;
+  if (t === 'rooftop') return rooftopModelForSite(site).uri;
+  return CELL_TOWER_URI;
 }
 
 function modelScaleForSite(site: SitefinderTowerSite, targetHeightMeters: number): number {
-  const nativeRange = isRadioTowerSite(site)
-    ? RADIO_TOWER_NATIVE_Y_RANGE
-    : CELL_TOWER_NATIVE_Y_RANGE;
-  return targetHeightMeters / nativeRange;
+  const t = getSiteModelType(site);
+  if (t === 'radio') return targetHeightMeters / RADIO_TOWER_NATIVE_Y_RANGE;
+  if (t === 'rooftop') return targetHeightMeters / rooftopModelForSite(site).yRange;
+  return targetHeightMeters / CELL_TOWER_NATIVE_Y_RANGE;
 }
 
 // How far above ground to place the model entity so its base sits at ground level.
 function modelGroundOffsetMeters(site: SitefinderTowerSite, scale: number): number {
-  const yMin = isRadioTowerSite(site) ? RADIO_TOWER_NATIVE_Y_MIN : CELL_TOWER_NATIVE_Y_MIN;
-  return Math.abs(yMin) * scale;
+  const t = getSiteModelType(site);
+  if (t === 'radio') return Math.abs(RADIO_TOWER_NATIVE_Y_MIN) * scale;
+  if (t === 'rooftop') return Math.abs(rooftopModelForSite(site).yMin) * scale;
+  return CELL_TOWER_NATIVE_Y_MIN * scale;
 }
 
 const TOWER_DIST = new Cesium.DistanceDisplayCondition(0, TOWER_MAX_DISPLAY_DISTANCE);
@@ -119,7 +136,10 @@ function buildTowerEntities(
   groundHeight: number
 ): Cesium.Entity[] {
   const entities: Cesium.Entity[] = [];
-  const towerHeight = Math.max(32, getSiteVisualHeight(site));
+  const isRooftop = getSiteModelType(site) === 'rooftop';
+  const towerHeight = isRooftop
+    ? Math.max(6, getSiteVisualHeight(site))
+    : Math.max(32, getSiteVisualHeight(site));
   const g = groundHeight;
   const props = siteProps(site);
   const dd = TOWER_DIST;

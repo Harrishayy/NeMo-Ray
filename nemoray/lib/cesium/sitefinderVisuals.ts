@@ -1,6 +1,20 @@
 import * as Cesium from 'cesium';
 import type { SitefinderTowerSite, TransmissionType } from '@/types/sitefinder';
 
+export type SiteModelType = 'radio' | 'cell' | 'rooftop';
+
+// Sites with antenna height below this are treated as building-mounted installations.
+const ROOFTOP_HEIGHT_THRESHOLD_METERS = 15;
+
+export function getSiteModelType(site: SitefinderTowerSite): SiteModelType {
+  if (site.transmissionTypes.includes('TETRA') || site.transmissionTypes.includes('GSM-R')) {
+    return 'radio';
+  }
+  const h = site.maxAntennaHeightMeters;
+  if (h !== null && h < ROOFTOP_HEIGHT_THRESHOLD_METERS) return 'rooftop';
+  return 'cell';
+}
+
 const TYPE_COLORS: Record<TransmissionType, string> = {
   GSM: '#ffdc4a',
   UMTS: '#ff7a2f',

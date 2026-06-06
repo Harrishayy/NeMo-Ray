@@ -1,0 +1,174 @@
+{
+  "asset": {
+    "extras": {
+      "author": "Blank2574 (https://sketchfab.com/Blank2574)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/rusted-antennas-86303d7c8cb442c2bcd138abe2b01c9f",
+      "title": "Rusted Antennas"
+    },
+    "generator": "Sketchfab-12.66.0",
+    "version": "2.0"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "name": "pCylinder88",
+      "mesh": 0
+    }
+  ],
+  "meshes": [
+    {
+      "name": "pCylinder88_phong1_0",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2,
+            "TEXCOORD_1": 3
+          },
+          "indices": 4,
+          "material": 0
+        }
+      ]
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 1,
+      "byteOffset": 0,
+      "componentType": 5126,
+      "count": 3216,
+      "type": "VEC3",
+      "min": [
+        -0.9989910125732422,
+        -4.214449644088745,
+        -1.2172985076904297
+      ],
+      "max": [
+        0.9989910125732422,
+        4.214449644088745,
+        1.2172985076904297
+      ]
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 38592,
+      "componentType": 5126,
+      "count": 3216,
+      "type": "VEC3",
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 0,
+      "componentType": 5126,
+      "count": 3216,
+      "type": "VEC2",
+      "min": [
+        0.0018220216734334826,
+        0.00199203216470778
+      ],
+      "max": [
+        0.9128328561782837,
+        0.9980080723762512
+      ]
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 25728,
+      "componentType": 5126,
+      "count": 3216,
+      "type": "VEC2",
+      "min": [
+        0.0018220216734334826,
+        0.00199203216470778
+      ],
+      "max": [
+        0.9128328561782837,
+        0.9980080723762512
+      ]
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 0,
+      "componentType": 5125,
+      "count": 8208,
+      "type": "SCALAR"
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 32832,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 32832,
+      "byteLength": 77184,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 110016,
+      "byteLength": 51456,
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "uri": "scene.bin",
+      "byteLength": 161472
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "phong1",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "roughnessFactor": 0.6401282308520146
+      }
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    }
+  ],
+  "images": [
+    {
+      "uri": "../rusted_antennas/textures/phong1_baseColor.jpeg"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ]
+}
