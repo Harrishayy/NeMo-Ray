@@ -39,6 +39,11 @@ const DECK_MODULE = "./DeckScene";
 
 const MapSurface: ComponentType<MapSurfaceProps> = dynamic(
   async () => {
+    // CesiumJS 3D scene (Google Photorealistic Tiles) — the collaborator's map.
+    if (MAP_IMPL === "cesium") {
+      const mod = await import("./CesiumScene");
+      return { default: mod.CesiumScene };
+    }
     if (MAP_IMPL === "deck") {
       try {
         const mod = (await import(
