@@ -2,11 +2,12 @@
 
 import * as Cesium from 'cesium';
 import { useEffect } from 'react';
-import { cesiumViewerRef } from './CesiumViewer';
+import { useCesiumViewer } from './CesiumContext';
 
 export default function PhotorealisticTiles() {
+  const viewer = useCesiumViewer();
+
   useEffect(() => {
-    const viewer = cesiumViewerRef.current;
     if (!viewer) return;
 
     let tileset: Cesium.Cesium3DTileset | null = null;
@@ -27,7 +28,7 @@ export default function PhotorealisticTiles() {
         viewer.scene.primitives.remove(tileset);
       }
     };
-  }, []);
+  }, [viewer]);
 
   return null;
 }

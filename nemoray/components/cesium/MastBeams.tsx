@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
 import * as Cesium from 'cesium';
-import { cesiumViewerRef } from './CesiumViewer';
+import { useCesiumViewer } from './CesiumContext';
 import type { MastSite } from '@/types/coverage';
 
 interface MastBeamsProps {
@@ -9,11 +9,11 @@ interface MastBeamsProps {
 }
 
 export default function MastBeams({ sites }: MastBeamsProps): null {
+  const viewer = useCesiumViewer();
   const entitiesRef = useRef<Cesium.Entity[]>([]);
   const listenerRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    const viewer = cesiumViewerRef.current;
     if (!viewer) return;
 
     // Clear any existing entities and listeners from a previous render
@@ -71,7 +71,7 @@ export default function MastBeams({ sites }: MastBeamsProps): null {
         listenerRef.current = null;
       }
     };
-  }, [sites]);
+  }, [viewer, sites]);
 
   return null;
 }

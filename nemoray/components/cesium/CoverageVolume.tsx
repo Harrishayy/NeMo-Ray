@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
 import * as Cesium from 'cesium';
-import { cesiumViewerRef } from './CesiumViewer';
+import { useCesiumViewer } from './CesiumContext';
 import type { CoveragePoint } from '@/types/coverage';
 import { createHeatmapPrimitive } from '@/lib/cesium/primitives/heatmapPrimitive';
 
@@ -10,8 +10,9 @@ interface CoverageVolumeProps {
 }
 
 export default function CoverageVolume({ points }: CoverageVolumeProps): null {
+  const viewer = useCesiumViewer();
+
   useEffect(() => {
-    const viewer = cesiumViewerRef.current;
     if (!viewer) return;
 
     const primitive = createHeatmapPrimitive(viewer, points);
@@ -29,7 +30,7 @@ export default function CoverageVolume({ points }: CoverageVolumeProps): null {
     return () => {
       viewer.scene.groundPrimitives.remove(primitive);
     };
-  }, [points]);
+  }, [viewer, points]);
 
   return null;
 }

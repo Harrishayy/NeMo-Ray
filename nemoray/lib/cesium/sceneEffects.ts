@@ -12,22 +12,8 @@ export function applyNightScene(viewer: Cesium.Viewer): void {
     intensity: 0.1,
   });
 
-  // Bloom post-process
-  if (scene.postProcessStages.bloom !== undefined) {
-    scene.postProcessStages.bloom.enabled = true;
-    const bloomUniforms = scene.postProcessStages.bloom.uniforms;
-    if (bloomUniforms) {
-      bloomUniforms.glowOnly = false;
-      bloomUniforms.delta = 1.0;
-      bloomUniforms.sigma = 2.78;
-      bloomUniforms.stepSize = 1.0;
-    }
-  }
-
-  // Ambient occlusion
-  if (scene.postProcessStages.ambientOcclusion !== undefined) {
-    scene.postProcessStages.ambientOcclusion.enabled = true;
-  }
+  // Bloom and AO disabled: both stages trigger GL_GUILTY_CONTEXT_RESET_KHR on
+  // NVIDIA Linux drivers (460–570 series), crashing the Brave/Chrome GPU process.
 
   // Hide sun and moon
   if (scene.sun !== undefined) {
@@ -47,8 +33,10 @@ export function applyNightScene(viewer: Cesium.Viewer): void {
     scene.skyBox.show = false;
   }
 
-  // Use Photorealistic 3D Tiles — no globe needed
-  scene.globe.show = false;
+  // globe is undefined when Viewer was created with globe:false — guard accordingly
+  if (scene.globe) {
+    scene.globe.show = false;
+  }
 
   // Fog
   scene.fog.enabled = true;

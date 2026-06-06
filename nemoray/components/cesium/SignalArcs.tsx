@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
 import * as Cesium from 'cesium';
-import { cesiumViewerRef } from './CesiumViewer';
+import { useCesiumViewer } from './CesiumContext';
 import type { MastSite } from '@/types/coverage';
 import { createSignalArc } from '@/lib/cesium/primitives/arcPrimitive';
 
@@ -15,12 +15,12 @@ interface ArcRecord {
 }
 
 export default function SignalArcs({ sites }: SignalArcsProps): null {
+  const viewer = useCesiumViewer();
   const arcsRef = useRef<ArcRecord[]>([]);
   const listenerRef = useRef<(() => void) | null>(null);
   const packetCollectionRef = useRef<Cesium.PointPrimitiveCollection | null>(null);
 
   useEffect(() => {
-    const viewer = cesiumViewerRef.current;
     if (!viewer) return;
 
     // Cleanup previous state
@@ -177,7 +177,7 @@ export default function SignalArcs({ sites }: SignalArcsProps): null {
         packetCollectionRef.current = null;
       }
     };
-  }, [sites]);
+  }, [viewer, sites]);
 
   return null;
 }
