@@ -7,7 +7,7 @@
 name = "nemo-ray"
 version = "0.1.0"
 description = "NeMo-Ray"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "pandas>=2.3.3",
 ]
@@ -18,15 +18,12 @@ dev = [
     "ruff>=0.6",
 ]
 
-# When modellingsim grows its own pyproject.toml, turn the repo into a uv
-# workspace by uncommenting:
-#
-# [tool.uv.workspace]
-# members = ["modellingsim"]
+[tool.uv.workspace]
+members = ["modellingsim"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
